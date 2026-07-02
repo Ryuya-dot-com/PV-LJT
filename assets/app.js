@@ -668,11 +668,35 @@ function advanceOrExport() {
 
 function bindEvents() {
   state.browserSeed = browserSeed();
+  let reviewerReloadTimer = null;
 
-  els.reviewerId.addEventListener("change", async () => {
+  function applyReviewerIdChange() {
+    const nextReviewerId = els.reviewerId.value.trim();
+    if (nextReviewerId === state.reviewerId) {
+      return;
+    }
     persistCurrentFields();
-    state.reviewerId = els.reviewerId.value.trim();
-    await loadTask();
+    state.reviewerId = nextReviewerId;
+    if (state.rawTrials.length) {
+      state.trialPlan = buildTrialPlan(state.rawTrials);
+      loadSavedSession();
+      render();
+    } else {
+      loadTask().catch((error) => {
+        els.saveStatus.textContent = "Load error";
+        console.error(error);
+      });
+    }
+  }
+
+  els.reviewerId.addEventListener("input", () => {
+    window.clearTimeout(reviewerReloadTimer);
+    reviewerReloadTimer = window.setTimeout(applyReviewerIdChange, 250);
+  });
+
+  els.reviewerId.addEventListener("change", () => {
+    window.clearTimeout(reviewerReloadTimer);
+    applyReviewerIdChange();
   });
 
   document.querySelectorAll('input[name="voice"]').forEach((input) => {
