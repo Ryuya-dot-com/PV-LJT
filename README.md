@@ -11,8 +11,19 @@ the male or female ElevenLabs voice and export their responses as CSV.
 - Aural PV-LJT List B
 - Audio phrasal verb decision
 
-The public site is intended for collaborator audio review, not for learner data
-collection. The repository includes keyed materials for review and audit.
+Practice trials are presented first in fixed order. Main trials are
+pseudo-randomized from reviewer ID, voice, and task, so the same reviewer gets
+the same order when resuming.
+
+Each trial collects both the task response and two 6-point listening-review
+ratings:
+
+- ease of listening
+- naturalness of English
+
+The public site is intended for collaborator review and pilot dry-runs, not for
+final learner data collection. The repository includes keyed materials for
+review and audit.
 
 ## Audio
 

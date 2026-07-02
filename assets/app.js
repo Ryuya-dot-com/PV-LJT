@@ -6,6 +6,7 @@ const TASKS = {
     promptTitle: "Acceptable or unacceptable?",
     promptCopy: "Judge the sentence meaning from the audio.",
     responseField: "expected_response",
+    balanceField: "expected_response",
     responses: [
       { value: "acceptable", label: "Acceptable" },
       { value: "unacceptable", label: "Unacceptable" },
@@ -18,6 +19,7 @@ const TASKS = {
     promptTitle: "Acceptable or unacceptable?",
     promptCopy: "Judge the sentence meaning from the audio.",
     responseField: "expected_response",
+    balanceField: "expected_response",
     responses: [
       { value: "acceptable", label: "Acceptable" },
       { value: "unacceptable", label: "Unacceptable" },
@@ -30,6 +32,7 @@ const TASKS = {
     promptTitle: "Common English phrasal verb?",
     promptCopy: "Judge the two-word audio stimulus.",
     responseField: "correct_response",
+    balanceField: "correct_response",
     responses: [
       { value: "yes", label: "Yes" },
       { value: "no", label: "No" },
@@ -37,13 +40,19 @@ const TASKS = {
   },
 };
 
+const STORAGE_VERSION = "v2";
+const MAX_RUN_LENGTH = 3;
+
 const state = {
   taskKey: "ljt_a",
   voice: "male",
   reviewerId: "",
-  trials: [],
+  rawTrials: [],
+  trialPlan: [],
   currentIndex: 0,
   responses: {},
+  randomization: null,
+  browserSeed: "",
 };
 
 const els = {
@@ -53,7 +62,10 @@ const els = {
   taskLabel: document.getElementById("taskLabel"),
   progressText: document.getElementById("progressText"),
   progressBar: document.getElementById("progressBar"),
-  trialNav: document.getElementById("trialNav"),
+  voiceLabel: document.getElementById("voiceLabel"),
+  sidePhaseLabel: document.getElementById("sidePhaseLabel"),
+  orderStatus: document.getElementById("orderStatus"),
+  seedLabel: document.getElementById("seedLabel"),
   phaseLabel: document.getElementById("phaseLabel"),
   trialCounter: document.getElementById("trialCounter"),
   audioPlayer: document.getElementById("audioPlayer"),
@@ -63,8 +75,11 @@ const els = {
   responseButtons: document.getElementById("responseButtons"),
   textReveal: document.getElementById("textReveal"),
   stimulusText: document.getElementById("stimulusText"),
+  easeSlider: document.getElementById("easeSlider"),
+  easeValue: document.getElementById("easeValue"),
+  naturalnessSlider: document.getElementById("naturalnessSlider"),
+  naturalnessValue: document.getElementById("naturalnessValue"),
   commentBox: document.getElementById("commentBox"),
-  prevButton: document.getElementById("prevButton"),
   nextButton: document.getElementById("nextButton"),
   exportButton: document.getElementById("exportButton"),
   resetButton: document.getElementById("resetButton"),
@@ -78,6 +93,227 @@ function parseTsv(text) {
     const cells = line.split("\t");
     return Object.fromEntries(headers.map((header, index) => [header, cells[index] ?? ""]));
   });
+}
+
+function hashString(text) {
+  let hash = 2166136261;
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function seededUnit(seed) {
+  let x = hashString(seed) || 1;
+  x ^= x << 13;
+  x ^= x >>> 17;
+  x ^= x << 5;
+  return (x >>> 0) / 4294967296;
+}
+
+function shuffleDeterministic(values, seed) {
+  const out = values.slice();
+  for (let i = out.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(seededUnit(`${seed}:${i}`) * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+function browserSeed() {
+  const key = "pv-ljt-browser-seed";
+  let value = localStorage.getItem(key);
+  if (!value) {
+    value = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+    localStorage.setItem(key, value);
+  }
+  return value;
+}
+
+function seedInfo() {
+  const reviewer = state.reviewerId.trim();
+  if (reviewer) {
+    return {
+      basis: "reviewer_id",
+      seed: `reviewer:${reviewer}`,
+      shortLabel: reviewer,
+    };
+  }
+  return {
+    basis: "browser_fallback",
+    seed: `browser:${state.browserSeed}`,
+    shortLabel: "browser fallback",
+  };
+}
+
+function mainRandomizationSeed() {
+  const info = seedInfo();
+  return `pv-ljt:${STORAGE_VERSION}:${state.taskKey}:${state.voice}:${info.seed}`;
+}
+
+function countRunViolations(trials, field) {
+  let violations = 0;
+  let run = 0;
+  let previous = "";
+  trials.forEach((trial) => {
+    const value = String(trial[field] || "");
+    if (value && value === previous) {
+      run += 1;
+    } else {
+      run = 1;
+      previous = value;
+    }
+    if (run > MAX_RUN_LENGTH) {
+      violations += run - MAX_RUN_LENGTH;
+    }
+  });
+  return violations;
+}
+
+function countAdjacentMatches(trials, field) {
+  let matches = 0;
+  for (let i = 1; i < trials.length; i += 1) {
+    const current = String(trials[i][field] || "");
+    const previous = String(trials[i - 1][field] || "");
+    if (current && current === previous) {
+      matches += 1;
+    }
+  }
+  return matches;
+}
+
+function hardViolationCount(trials, task) {
+  const runViolations = countRunViolations(trials, task.balanceField);
+  const itemTypeRuns = task.kind === "audio_decision" ? countRunViolations(trials, "item_type") : 0;
+  return runViolations + itemTypeRuns;
+}
+
+function randomizationScore(trials, task) {
+  const hardViolations = hardViolationCount(trials, task);
+  const pvAdjacency = countAdjacentMatches(trials, "pv") + countAdjacentMatches(trials, "matched_target_pv");
+  return hardViolations * 1000 + pvAdjacency;
+}
+
+function balancedGreedyPlan(mainTrials, task, seed) {
+  const groups = new Map();
+  mainTrials.forEach((trial) => {
+    const value = String(trial[task.balanceField] || "unclassified");
+    if (!groups.has(value)) {
+      groups.set(value, []);
+    }
+    groups.get(value).push(trial);
+  });
+  groups.forEach((items, value) => {
+    groups.set(value, shuffleDeterministic(items, `${seed}:greedy:${value}`));
+  });
+
+  const out = [];
+  let previous = "";
+  let run = 0;
+  while (out.length < mainTrials.length) {
+    let candidates = Array.from(groups.keys()).filter((value) => {
+      const items = groups.get(value);
+      if (!items || items.length === 0) return false;
+      return !(value === previous && run >= MAX_RUN_LENGTH);
+    });
+    if (!candidates.length) {
+      return null;
+    }
+
+    const maxRemaining = Math.max(...candidates.map((value) => groups.get(value).length));
+    candidates = candidates.filter((value) => groups.get(value).length >= maxRemaining - 1);
+    const chosenIndex = Math.floor(
+      seededUnit(`${seed}:greedy:pick:${out.length}`) * candidates.length,
+    );
+    const chosen = candidates[chosenIndex];
+    out.push(groups.get(chosen).shift());
+    if (chosen === previous) {
+      run += 1;
+    } else {
+      previous = chosen;
+      run = 1;
+    }
+  }
+  return out;
+}
+
+function pseudoRandomizeMainTrials(mainTrials, task, seed) {
+  if (mainTrials.length < 2) {
+    return {
+      trials: mainTrials.slice(),
+      attempt: 0,
+      constraintsMet: true,
+      score: 0,
+    };
+  }
+
+  let best = null;
+  for (let attempt = 0; attempt < 400; attempt += 1) {
+    const candidate = shuffleDeterministic(mainTrials, `${seed}:attempt:${attempt}`);
+    const score = randomizationScore(candidate, task);
+    const hardViolations = hardViolationCount(candidate, task);
+    if (!best || score < best.score) {
+      best = {
+        trials: candidate,
+        attempt,
+        constraintsMet: hardViolations === 0,
+        hardViolations,
+        score,
+      };
+    }
+    if (hardViolations === 0) {
+      return best;
+    }
+  }
+
+  const greedy = balancedGreedyPlan(mainTrials, task, seed);
+  if (greedy) {
+    const score = randomizationScore(greedy, task);
+    const hardViolations = hardViolationCount(greedy, task);
+    if (!best || score < best.score) {
+      best = {
+        trials: greedy,
+        attempt: "greedy",
+        constraintsMet: hardViolations === 0,
+        hardViolations,
+        score,
+      };
+    }
+  }
+  return best;
+}
+
+function withPlanMetadata(trials, phase, startOrder) {
+  return trials.map((trial, index) => ({
+    ...trial,
+    display_order: startOrder + index,
+    phase_order: index + 1,
+    original_trial_order: trial.trial_order || "",
+    randomized_phase: phase === "main" ? "pseudo_randomized" : "fixed_practice",
+  }));
+}
+
+function buildTrialPlan(rawTrials) {
+  const task = TASKS[state.taskKey];
+  const practice = rawTrials.filter((trial) => trial.phase === "practice");
+  const main = rawTrials.filter((trial) => trial.phase !== "practice");
+  const seed = mainRandomizationSeed();
+  const randomized = pseudoRandomizeMainTrials(main, task, seed);
+  const practicePlan = withPlanMetadata(practice, "practice", 1);
+  const mainPlan = withPlanMetadata(randomized.trials, "main", practicePlan.length + 1);
+
+  state.randomization = {
+    seed,
+    seedBasis: seedInfo().basis,
+    attempt: randomized.attempt,
+    constraintsMet: randomized.constraintsMet,
+    hardViolations: randomized.hardViolations,
+    score: randomized.score,
+    nPractice: practicePlan.length,
+    nMain: mainPlan.length,
+  };
+  return practicePlan.concat(mainPlan);
 }
 
 function audioName(name) {
@@ -96,24 +332,70 @@ function audioPath(trial) {
   return `audio/raw/elevenlabs/${voice}/ljt_v4/${name}`;
 }
 
+function trialId(trial) {
+  return trial.item_id || trial.trial_id || `trial_${trial.display_order}`;
+}
+
 function trialKey(index = state.currentIndex) {
-  const trial = state.trials[index];
-  const id = trial.item_id || trial.trial_id || `trial_${index + 1}`;
-  return `${state.taskKey}:${state.voice}:${id}`;
+  const trial = state.trialPlan[index];
+  return `${state.taskKey}:${state.voice}:${seedInfo().seed}:${trialId(trial)}`;
 }
 
 function storageKey() {
-  return `pv-ljt-review:${state.taskKey}:${state.voice}`;
+  return `pv-ljt-review:${STORAGE_VERSION}:${state.taskKey}:${state.voice}:${seedInfo().seed}`;
 }
 
 function blankResponse() {
   return {
     response: "",
+    responseAt: "",
+    responseRtMs: "",
+    trialStartedAt: "",
+    playbackCount: 0,
+    easeRating: "",
+    easeTouched: false,
+    naturalnessRating: "",
+    naturalnessTouched: false,
     flags: [],
     comment: "",
-    playbackCount: 0,
     updatedAt: "",
   };
+}
+
+function loadSavedSession() {
+  const saved = localStorage.getItem(storageKey());
+  if (!saved) {
+    state.responses = {};
+    state.currentIndex = 0;
+    return;
+  }
+  try {
+    const parsed = JSON.parse(saved);
+    state.responses = parsed.responses || {};
+    state.currentIndex = Math.min(parsed.currentIndex || 0, Math.max(0, state.trialPlan.length - 1));
+  } catch (error) {
+    state.responses = {};
+    state.currentIndex = 0;
+  }
+}
+
+function saveSession() {
+  localStorage.setItem(
+    storageKey(),
+    JSON.stringify({
+      reviewerId: state.reviewerId,
+      voice: state.voice,
+      taskKey: state.taskKey,
+      currentIndex: state.currentIndex,
+      randomization: state.randomization,
+      responses: state.responses,
+      savedAt: new Date().toISOString(),
+    }),
+  );
+  els.saveStatus.textContent = "Saved";
+  window.setTimeout(() => {
+    els.saveStatus.textContent = "Ready";
+  }, 900);
 }
 
 function currentResponse() {
@@ -124,17 +406,13 @@ function currentResponse() {
   return state.responses[key];
 }
 
-function loadSavedResponses() {
-  const saved = localStorage.getItem(storageKey());
-  state.responses = saved ? JSON.parse(saved) : {};
-}
-
-function saveResponses() {
-  localStorage.setItem(storageKey(), JSON.stringify(state.responses));
-  els.saveStatus.textContent = "Saved";
-  window.setTimeout(() => {
-    els.saveStatus.textContent = "Ready";
-  }, 900);
+function ensureTrialStarted() {
+  const saved = currentResponse();
+  if (!saved.trialStartedAt) {
+    saved.trialStartedAt = new Date().toISOString();
+    saved.trialStartedAtMs = performance.now();
+    saveSession();
+  }
 }
 
 async function loadTask() {
@@ -143,38 +421,36 @@ async function loadTask() {
   if (!response.ok) {
     throw new Error(`Could not load ${task.path}`);
   }
-  state.trials = parseTsv(await response.text());
-  state.currentIndex = 0;
-  loadSavedResponses();
+  state.rawTrials = parseTsv(await response.text());
+  state.trialPlan = buildTrialPlan(state.rawTrials);
+  loadSavedSession();
   render();
 }
 
 function completedCount() {
-  return state.trials.filter((_, index) => {
-    const key = trialKey(index);
-    return state.responses[key]?.response;
+  return state.trialPlan.filter((_, index) => {
+    const saved = state.responses[trialKey(index)];
+    return isComplete(saved);
   }).length;
 }
 
-function renderNav() {
-  els.trialNav.innerHTML = "";
-  state.trials.forEach((trial, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = String(index + 1);
-    button.className = [
-      index === state.currentIndex ? "current" : "",
-      state.responses[trialKey(index)]?.response ? "done" : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
-    button.addEventListener("click", () => {
-      persistCurrentFields();
-      state.currentIndex = index;
-      render();
-    });
-    els.trialNav.append(button);
-  });
+function isComplete(saved) {
+  return !!(
+    saved &&
+    saved.response &&
+    saved.easeTouched &&
+    saved.naturalnessTouched
+  );
+}
+
+function ratingLabel(value, touched) {
+  return touched ? `${value} / 6` : "Move slider to rate";
+}
+
+function setSlider(slider, output, value, touched) {
+  slider.value = value || "3";
+  slider.classList.toggle("unrated", !touched);
+  output.textContent = ratingLabel(slider.value, touched);
 }
 
 function renderResponseButtons() {
@@ -187,17 +463,28 @@ function renderResponseButtons() {
     button.textContent = option.label;
     button.className = saved.response === option.value ? "selected" : "";
     button.addEventListener("click", () => {
+      const now = performance.now();
       saved.response = option.value;
+      saved.responseAt = new Date().toISOString();
+      const started = Number(saved.trialStartedAtMs || now);
+      saved.responseRtMs = String(Math.max(0, Math.round(now - started)));
       saved.updatedAt = new Date().toISOString();
-      saveResponses();
+      saveSession();
       render();
     });
     els.responseButtons.append(button);
   });
 }
 
-function renderQualityFields() {
+function renderReviewFields() {
   const saved = currentResponse();
+  setSlider(els.easeSlider, els.easeValue, saved.easeRating, saved.easeTouched);
+  setSlider(
+    els.naturalnessSlider,
+    els.naturalnessValue,
+    saved.naturalnessRating,
+    saved.naturalnessTouched,
+  );
   document.querySelectorAll(".quality-grid input").forEach((input) => {
     input.checked = saved.flags.includes(input.value);
   });
@@ -206,33 +493,44 @@ function renderQualityFields() {
 
 function render() {
   const task = TASKS[state.taskKey];
-  const trial = state.trials[state.currentIndex];
+  const trial = state.trialPlan[state.currentIndex];
   if (!trial) {
     return;
   }
+  ensureTrialStarted();
+  const saved = currentResponse();
+  const done = completedCount();
+  const phase = trial.phase === "practice" ? "Practice" : "Main";
+  const randomization = state.randomization || {};
 
   els.taskLabel.textContent = task.label;
+  els.voiceLabel.textContent = state.voice === "male" ? "Male" : "Female";
+  els.sidePhaseLabel.textContent = phase;
+  els.orderStatus.textContent = randomization.constraintsMet
+    ? (randomization.attempt === "greedy" ? "balanced" : `attempt ${randomization.attempt}`)
+    : `best effort (${randomization.score})`;
+  els.seedLabel.textContent = seedInfo().shortLabel;
   els.promptTitle.textContent = task.promptTitle;
   els.promptCopy.textContent = task.promptCopy;
-  els.phaseLabel.textContent = trial.phase === "practice" ? "Practice" : "Main";
-  els.trialCounter.textContent = `Trial ${state.currentIndex + 1} of ${state.trials.length}`;
+  els.phaseLabel.textContent = phase;
+  els.trialCounter.textContent = `Trial ${state.currentIndex + 1} of ${state.trialPlan.length}`;
   els.audioPlayer.src = audioPath(trial);
   els.stimulusText.textContent = trial.stimulus_text || "";
-  els.textReveal.hidden = !(els.showText.checked && currentResponse().response);
-  els.prevButton.disabled = state.currentIndex === 0;
-  els.nextButton.textContent = state.currentIndex === state.trials.length - 1 ? "Finish" : "Next";
+  els.textReveal.hidden = !(els.showText.checked && saved.response);
 
-  const done = completedCount();
-  els.progressText.textContent = `${done} / ${state.trials.length}`;
-  els.progressBar.style.width = `${state.trials.length ? (done / state.trials.length) * 100 : 0}%`;
+  els.progressText.textContent = `${done} / ${state.trialPlan.length}`;
+  els.progressBar.style.width = `${state.trialPlan.length ? (done / state.trialPlan.length) * 100 : 0}%`;
+  els.nextButton.disabled = !isComplete(saved);
+  els.nextButton.textContent = state.currentIndex === state.trialPlan.length - 1
+    ? "Export CSV"
+    : "Next";
 
   renderResponseButtons();
-  renderQualityFields();
-  renderNav();
+  renderReviewFields();
 }
 
 function persistCurrentFields() {
-  if (!state.trials.length) {
+  if (!state.trialPlan.length) {
     return;
   }
   const saved = currentResponse();
@@ -241,7 +539,21 @@ function persistCurrentFields() {
   );
   saved.comment = els.commentBox.value.trim();
   saved.updatedAt = new Date().toISOString();
-  saveResponses();
+  saveSession();
+}
+
+function setRating(kind, value) {
+  const saved = currentResponse();
+  if (kind === "ease") {
+    saved.easeRating = value;
+    saved.easeTouched = true;
+  } else {
+    saved.naturalnessRating = value;
+    saved.naturalnessTouched = true;
+  }
+  saved.updatedAt = new Date().toISOString();
+  saveSession();
+  render();
 }
 
 function csvEscape(value) {
@@ -255,27 +567,42 @@ function csvEscape(value) {
 function exportCsv() {
   persistCurrentFields();
   const task = TASKS[state.taskKey];
+  const exportedAt = new Date().toISOString();
+  const randomization = state.randomization || {};
   const headers = [
     "reviewer_id",
     "exported_at",
     "task",
     "voice",
-    "trial_order",
+    "randomization_seed",
+    "randomization_seed_basis",
+    "randomization_attempt",
+    "randomization_constraints_met",
+    "randomization_hard_violations",
+    "randomization_score",
+    "display_order",
+    "phase_order",
+    "original_trial_order",
     "phase",
     "item_id",
     "trial_id",
     "pv",
+    "item_type",
     "response",
     "expected_response",
     "response_correct",
+    "trial_started_at",
+    "response_at",
+    "response_rt_ms",
+    "playback_count",
+    "ease_of_listening_1_6",
+    "naturalness_of_english_1_6",
     "quality_flags",
     "comment",
-    "playback_count",
     "audio_file",
     "stimulus_text",
   ];
-  const exportedAt = new Date().toISOString();
-  const rows = state.trials.map((trial, index) => {
+  const rows = state.trialPlan.map((trial, index) => {
     const saved = state.responses[trialKey(index)] || blankResponse();
     const expected = trial[task.responseField] || "";
     const correct = saved.response ? String(saved.response === expected) : "";
@@ -284,17 +611,31 @@ function exportCsv() {
       exportedAt,
       task.label,
       state.voice,
-      trial.trial_order || index + 1,
+      randomization.seed || "",
+      randomization.seedBasis || "",
+      randomization.attempt ?? "",
+      randomization.constraintsMet ?? "",
+      randomization.hardViolations ?? "",
+      randomization.score ?? "",
+      trial.display_order || index + 1,
+      trial.phase_order || "",
+      trial.original_trial_order || "",
       trial.phase,
       trial.item_id || "",
       trial.trial_id || "",
-      trial.pv || "",
+      trial.pv || trial.matched_target_pv || "",
+      trial.item_type || "",
       saved.response,
       expected,
       correct,
+      saved.trialStartedAt || "",
+      saved.responseAt || "",
+      saved.responseRtMs || "",
+      saved.playbackCount,
+      saved.easeTouched ? saved.easeRating : "",
+      saved.naturalnessTouched ? saved.naturalnessRating : "",
       saved.flags.join(";"),
       saved.comment,
-      saved.playbackCount,
       audioPath(trial),
       trial.stimulus_text || "",
     ];
@@ -311,9 +652,27 @@ function exportCsv() {
   URL.revokeObjectURL(url);
 }
 
+function advanceOrExport() {
+  persistCurrentFields();
+  if (!isComplete(currentResponse())) {
+    return;
+  }
+  if (state.currentIndex >= state.trialPlan.length - 1) {
+    exportCsv();
+    return;
+  }
+  state.currentIndex += 1;
+  saveSession();
+  render();
+}
+
 function bindEvents() {
-  els.reviewerId.addEventListener("input", () => {
+  state.browserSeed = browserSeed();
+
+  els.reviewerId.addEventListener("change", async () => {
+    persistCurrentFields();
     state.reviewerId = els.reviewerId.value.trim();
+    await loadTask();
   });
 
   document.querySelectorAll('input[name="voice"]').forEach((input) => {
@@ -336,7 +695,7 @@ function bindEvents() {
     const saved = currentResponse();
     saved.playbackCount += 1;
     saved.updatedAt = new Date().toISOString();
-    saveResponses();
+    saveSession();
   });
 
   els.replayButton.addEventListener("click", () => {
@@ -344,36 +703,26 @@ function bindEvents() {
     els.audioPlayer.play();
   });
 
+  els.easeSlider.addEventListener("input", () => setRating("ease", els.easeSlider.value));
+  els.naturalnessSlider.addEventListener("input", () => (
+    setRating("naturalness", els.naturalnessSlider.value)
+  ));
+
   document.querySelectorAll(".quality-grid input").forEach((input) => {
     input.addEventListener("change", persistCurrentFields);
   });
   els.commentBox.addEventListener("blur", persistCurrentFields);
-
-  els.prevButton.addEventListener("click", () => {
-    persistCurrentFields();
-    state.currentIndex = Math.max(0, state.currentIndex - 1);
-    render();
-  });
-
-  els.nextButton.addEventListener("click", () => {
-    persistCurrentFields();
-    if (state.currentIndex < state.trials.length - 1) {
-      state.currentIndex += 1;
-      render();
-    } else {
-      exportCsv();
-    }
-  });
-
+  els.nextButton.addEventListener("click", advanceOrExport);
   els.exportButton.addEventListener("click", exportCsv);
 
-  els.resetButton.addEventListener("click", () => {
-    if (!window.confirm("Clear saved responses for this task and voice?")) {
+  els.resetButton.addEventListener("click", async () => {
+    if (!window.confirm("Clear saved responses for this task, voice, and reviewer ID?")) {
       return;
     }
     localStorage.removeItem(storageKey());
     state.responses = {};
-    render();
+    state.currentIndex = 0;
+    await loadTask();
   });
 }
 

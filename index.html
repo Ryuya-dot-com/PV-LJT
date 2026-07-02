@@ -46,12 +46,12 @@
 
         <label class="toggle">
           <input id="showText" type="checkbox">
-          <span>Show item text after response</span>
+          <span>Reveal transcript after response</span>
         </label>
       </section>
 
       <section class="review-layout">
-        <aside class="trial-list" aria-label="Trials">
+        <aside class="trial-list" aria-label="Session">
           <div class="list-head">
             <strong id="taskLabel">Aural PV-LJT List A</strong>
             <span id="progressText">0 / 0</span>
@@ -59,7 +59,24 @@
           <div class="progress-track" aria-hidden="true">
             <div id="progressBar" class="progress-bar"></div>
           </div>
-          <div id="trialNav" class="trial-nav"></div>
+          <dl class="session-metadata">
+            <div>
+              <dt>Voice</dt>
+              <dd id="voiceLabel">Male</dd>
+            </div>
+            <div>
+              <dt>Phase</dt>
+              <dd id="sidePhaseLabel">Practice</dd>
+            </div>
+            <div>
+              <dt>Main Order</dt>
+              <dd id="orderStatus">Pending</dd>
+            </div>
+            <div>
+              <dt>Seed</dt>
+              <dd id="seedLabel">-</dd>
+            </div>
+          </dl>
         </aside>
 
         <section class="trial-panel" aria-label="Current trial">
@@ -85,8 +102,20 @@
             <p id="stimulusText"></p>
           </div>
 
-          <section class="quality-panel" aria-label="Audio review flags">
-            <h3>Audio review</h3>
+          <section class="quality-panel" aria-label="Listening review">
+            <h3>Listening review</h3>
+            <div class="slider-stack">
+              <label class="slider-field">
+                <span>Ease of listening</span>
+                <input id="easeSlider" type="range" min="1" max="6" step="1" value="3">
+                <output id="easeValue">Move slider to rate</output>
+              </label>
+              <label class="slider-field">
+                <span>Naturalness of English</span>
+                <input id="naturalnessSlider" type="range" min="1" max="6" step="1" value="3">
+                <output id="naturalnessValue">Move slider to rate</output>
+              </label>
+            </div>
             <div class="quality-grid">
               <label><input type="checkbox" value="clear"> Clear</label>
               <label><input type="checkbox" value="wrong_text"> Wrong text</label>
@@ -102,7 +131,6 @@
           </section>
 
           <div class="actions">
-            <button id="prevButton" class="secondary" type="button">Previous</button>
             <button id="nextButton" type="button">Next</button>
             <button id="exportButton" class="secondary" type="button">Export CSV</button>
             <button id="resetButton" class="danger" type="button">Clear Task</button>

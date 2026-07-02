@@ -222,34 +222,36 @@ textarea {
   transition: width 160ms ease;
 }
 
-.trial-nav {
+.session-metadata {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 6px;
-  max-height: 570px;
-  overflow: auto;
-  padding: 12px;
+  gap: 12px;
+  margin: 0;
+  padding: 14px;
 }
 
-.trial-nav button {
-  min-width: 0;
-  aspect-ratio: 1;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fff;
+.session-metadata div {
+  display: grid;
+  gap: 3px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.session-metadata div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.session-metadata dt {
   color: var(--muted);
-  cursor: pointer;
-}
-
-.trial-nav button.current {
-  border-color: var(--accent);
-  color: var(--accent-strong);
+  font-size: 0.78rem;
   font-weight: 800;
+  text-transform: uppercase;
 }
 
-.trial-nav button.done {
-  background: var(--surface-muted);
-  color: var(--accent-strong);
+.session-metadata dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 750;
 }
 
 .trial-panel {
@@ -315,6 +317,14 @@ button:hover {
   background: var(--accent-strong);
 }
 
+button:disabled,
+button:disabled:hover {
+  border-color: var(--line);
+  background: #dbe2df;
+  color: #7a898f;
+  cursor: not-allowed;
+}
+
 button.secondary {
   border: 1px solid var(--line);
   background: #fff;
@@ -367,6 +377,43 @@ button.danger {
   font-size: 1rem;
 }
 
+.slider-stack {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.slider-field {
+  display: grid;
+  grid-template-columns: 170px minmax(180px, 1fr) 136px;
+  align-items: center;
+  gap: 12px;
+}
+
+.slider-field span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.slider-field input {
+  accent-color: var(--accent);
+  padding: 0;
+}
+
+.slider-field input.unrated {
+  accent-color: var(--line);
+}
+
+.slider-field output {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  padding: 8px 10px;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 800;
+}
+
 .quality-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -400,11 +447,6 @@ button.danger {
   .review-layout {
     grid-template-columns: 1fr;
   }
-
-  .trial-nav {
-    grid-template-columns: repeat(9, 1fr);
-    max-height: 160px;
-  }
 }
 
 @media (max-width: 560px) {
@@ -429,7 +471,8 @@ button.danger {
     grid-template-columns: 1fr;
   }
 
-  .trial-nav {
-    grid-template-columns: repeat(6, 1fr);
+  .slider-field {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 }
