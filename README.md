@@ -3,7 +3,8 @@
 Static review materials for the pilot phrasal-verb listening tasks.
 
 The GitHub Pages site lets reviewers complete the listening tasks with either
-the male or female ElevenLabs voice and export their responses as CSV.
+the male or female ElevenLabs voice and export their responses as an Excel
+workbook after every trial is complete.
 
 ## Review Tasks
 
@@ -20,6 +21,19 @@ ratings:
 
 - ease of listening
 - naturalness of English
+
+## Result Workbook
+
+The download is an `.xlsx` workbook with separate sheets:
+
+- `Session`: reviewer ID, task, voice, completion count, and randomization seed
+- `Responses`: one flat row per trial, including answer, correctness, response
+  time, playback count, ratings, flags, comments, audio path, and stimulus text
+- `Trial_Order`: display order and item metadata used for reproducibility
+- `Codebook`: short descriptions of key variables
+
+The download button remains locked until all trials in the selected task are
+complete.
 
 The public site is intended for collaborator review and pilot dry-runs, not for
 final learner data collection. The repository includes keyed materials for

@@ -80,6 +80,7 @@ const els = {
   naturalnessSlider: document.getElementById("naturalnessSlider"),
   naturalnessValue: document.getElementById("naturalnessValue"),
   commentBox: document.getElementById("commentBox"),
+  backButton: document.getElementById("backButton"),
   nextButton: document.getElementById("nextButton"),
   exportButton: document.getElementById("exportButton"),
   exportStatus: document.getElementById("exportStatus"),
@@ -448,6 +449,14 @@ function isComplete(saved) {
   );
 }
 
+function missingRequirements(saved) {
+  const missing = [];
+  if (!saved || !saved.response) missing.push("response");
+  if (!saved || !saved.easeTouched) missing.push("clarity");
+  if (!saved || !saved.naturalnessTouched) missing.push("naturalness");
+  return missing;
+}
+
 function ratingLabel(value, touched) {
   return touched ? `${value} / 6` : "Not rated";
 }
@@ -527,16 +536,22 @@ function render() {
 
   els.progressText.textContent = `${done} / ${state.trialPlan.length}`;
   els.progressBar.style.width = `${state.trialPlan.length ? (done / state.trialPlan.length) * 100 : 0}%`;
+  els.backButton.disabled = state.currentIndex === 0;
   els.nextButton.disabled = !isComplete(saved);
   if (state.currentIndex === state.trialPlan.length - 1) {
-    els.nextButton.textContent = canExport ? "Download CSV" : "Finish trial";
+    els.nextButton.textContent = canExport ? "Download Excel" : "Finish trial";
   } else {
     els.nextButton.textContent = "Next";
   }
   els.exportButton.disabled = !canExport;
-  els.exportStatus.textContent = canExport
-    ? "All trials complete"
-    : `${remaining} trial${remaining === 1 ? "" : "s"} remaining before CSV`;
+  const missing = missingRequirements(saved);
+  if (missing.length) {
+    els.exportStatus.textContent = `Needs ${missing.join(", ")}`;
+  } else {
+    els.exportStatus.textContent = canExport
+      ? "All trials complete"
+      : `${remaining} trial${remaining === 1 ? "" : "s"} remaining before Excel`;
+  }
 
   renderResponseButtons();
   renderReviewFields();
@@ -577,19 +592,11 @@ function csvEscape(value) {
   return text;
 }
 
-function exportCsv() {
-  persistCurrentFields();
-  if (!allTrialsComplete()) {
-    const remaining = Math.max(0, state.trialPlan.length - completedCount());
-    els.saveStatus.textContent = `${remaining} remaining`;
-    render();
-    return;
-  }
-
+function buildExportData() {
   const task = TASKS[state.taskKey];
   const exportedAt = new Date().toISOString();
   const randomization = state.randomization || {};
-  const headers = [
+  const responseHeaders = [
     "reviewer_id",
     "exported_at",
     "task",
@@ -622,7 +629,7 @@ function exportCsv() {
     "audio_file",
     "stimulus_text",
   ];
-  const rows = state.trialPlan.map((trial, index) => {
+  const responseRows = state.trialPlan.map((trial, index) => {
     const saved = state.responses[trialKey(index)] || blankResponse();
     const expected = trial[task.responseField] || "";
     const correct = saved.response ? String(saved.response === expected) : "";
@@ -661,15 +668,328 @@ function exportCsv() {
     ];
   });
 
-  const csv = [headers, ...rows].map((row) => row.map(csvEscape).join(",")).join("\n");
+  const trialOrderHeaders = [
+    "display_order",
+    "phase_order",
+    "original_trial_order",
+    "randomized_phase",
+    "phase",
+    "item_id",
+    "trial_id",
+    "pv",
+    "matched_target_pv",
+    "item_type",
+    "expected_response",
+    "audio_file",
+    "stimulus_text",
+  ];
+  const trialOrderRows = state.trialPlan.map((trial, index) => [
+    trial.display_order || index + 1,
+    trial.phase_order || "",
+    trial.original_trial_order || "",
+    trial.randomized_phase || "",
+    trial.phase || "",
+    trial.item_id || "",
+    trial.trial_id || "",
+    trial.pv || "",
+    trial.matched_target_pv || "",
+    trial.item_type || "",
+    trial[task.responseField] || "",
+    audioPath(trial),
+    trial.stimulus_text || "",
+  ]);
+
+  const completed = completedCount();
+  const sessionRows = [
+    ["field", "value"],
+    ["exported_at", exportedAt],
+    ["reviewer_id", state.reviewerId],
+    ["task_key", state.taskKey],
+    ["task_label", task.label],
+    ["voice", state.voice],
+    ["total_trials", state.trialPlan.length],
+    ["completed_trials", completed],
+    ["practice_trials", randomization.nPractice ?? ""],
+    ["main_trials", randomization.nMain ?? ""],
+    ["randomization_seed", randomization.seed || ""],
+    ["randomization_seed_basis", randomization.seedBasis || ""],
+    ["randomization_attempt", randomization.attempt ?? ""],
+    ["randomization_constraints_met", randomization.constraintsMet ?? ""],
+    ["randomization_hard_violations", randomization.hardViolations ?? ""],
+    ["randomization_score", randomization.score ?? ""],
+    ["storage_version", STORAGE_VERSION],
+    ["source_url", window.location.href],
+  ];
+
+  const codebookRows = [
+    ["sheet", "variable", "description"],
+    ["Session", "reviewer_id", "Reviewer identifier entered at the top of the page."],
+    ["Session", "randomization_seed", "Seed used for deterministic main-trial randomization."],
+    ["Responses", "display_order", "Order shown to the reviewer, including fixed practice trials."],
+    ["Responses", "response", "Reviewer answer for the task."],
+    ["Responses", "expected_response", "Keyed correct or expected answer from the trial file."],
+    ["Responses", "response_correct", "TRUE/FALSE string when a response was present."],
+    ["Responses", "response_rt_ms", "Milliseconds from trial start to task response click."],
+    ["Responses", "playback_count", "Number of audio play events recorded by the browser."],
+    ["Responses", "ease_of_listening_1_6", "Listening clarity rating: 1 = hard to hear, 6 = very easy to hear."],
+    ["Responses", "naturalness_of_english_1_6", "English naturalness rating: 1 = unnatural, 6 = natural English."],
+    ["Responses", "quality_flags", "Optional semicolon-delimited audio issue flags."],
+    ["Trial_Order", "randomized_phase", "fixed_practice or pseudo_randomized."],
+    ["Trial_Order", "audio_file", "Repo-relative audio path used by the page."],
+  ];
+
+  return {
+    exportedAt,
+    responseHeaders,
+    responseRows,
+    trialOrderHeaders,
+    trialOrderRows,
+    sessionRows,
+    codebookRows,
+  };
+}
+
+function ensureExportReady() {
+  persistCurrentFields();
+  if (!allTrialsComplete()) {
+    const remaining = Math.max(0, state.trialPlan.length - completedCount());
+    els.saveStatus.textContent = `${remaining} remaining`;
+    render();
+    return false;
+  }
+  return true;
+}
+
+function exportCsv() {
+  if (!ensureExportReady()) {
+    return;
+  }
+
+  const data = buildExportData();
+  const csv = [data.responseHeaders, ...data.responseRows]
+    .map((row) => row.map(csvEscape).join(","))
+    .join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  downloadBlob(blob, resultFileName("csv"));
+}
+
+function xmlEscape(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function columnName(index) {
+  let n = index + 1;
+  let name = "";
+  while (n > 0) {
+    const rem = (n - 1) % 26;
+    name = String.fromCharCode(65 + rem) + name;
+    n = Math.floor((n - 1) / 26);
+  }
+  return name;
+}
+
+function worksheetXml(rows) {
+  const sheetRows = rows.map((row, rowIndex) => {
+    const cells = row.map((value, colIndex) => {
+      const ref = `${columnName(colIndex)}${rowIndex + 1}`;
+      if (typeof value === "number" && Number.isFinite(value)) {
+        return `<c r="${ref}"><v>${value}</v></c>`;
+      }
+      if (typeof value === "boolean") {
+        return `<c r="${ref}" t="b"><v>${value ? 1 : 0}</v></c>`;
+      }
+      return `<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${xmlEscape(value)}</t></is></c>`;
+    }).join("");
+    return `<row r="${rowIndex + 1}">${cells}</row>`;
+  }).join("");
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetRows}</sheetData></worksheet>`;
+}
+
+function makeXlsxBlob(sheets) {
+  const sheetOverrides = sheets.map((_, index) => (
+    `<Override PartName="/xl/worksheets/sheet${index + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`
+  )).join("");
+  const workbookSheets = sheets.map((sheet, index) => (
+    `<sheet name="${xmlEscape(sheet.name)}" sheetId="${index + 1}" r:id="rId${index + 1}"/>`
+  )).join("");
+  const workbookRels = sheets.map((_, index) => (
+    `<Relationship Id="rId${index + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${index + 1}.xml"/>`
+  )).join("");
+
+  const files = [
+    {
+      name: "[Content_Types].xml",
+      content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>${sheetOverrides}</Types>`,
+    },
+    {
+      name: "_rels/.rels",
+      content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`,
+    },
+    {
+      name: "xl/workbook.xml",
+      content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${workbookSheets}</sheets></workbook>`,
+    },
+    {
+      name: "xl/_rels/workbook.xml.rels",
+      content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${workbookRels}</Relationships>`,
+    },
+    ...sheets.map((sheet, index) => ({
+      name: `xl/worksheets/sheet${index + 1}.xml`,
+      content: worksheetXml(sheet.rows),
+    })),
+  ];
+  return new Blob([zipFiles(files)], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+}
+
+function makeCrcTable() {
+  const table = new Uint32Array(256);
+  for (let i = 0; i < 256; i += 1) {
+    let c = i;
+    for (let k = 0; k < 8; k += 1) {
+      c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    }
+    table[i] = c >>> 0;
+  }
+  return table;
+}
+
+const CRC_TABLE = makeCrcTable();
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  bytes.forEach((byte) => {
+    crc = CRC_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  });
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function uint16(value) {
+  const bytes = new Uint8Array(2);
+  new DataView(bytes.buffer).setUint16(0, value, true);
+  return bytes;
+}
+
+function uint32(value) {
+  const bytes = new Uint8Array(4);
+  new DataView(bytes.buffer).setUint32(0, value >>> 0, true);
+  return bytes;
+}
+
+function concatBytes(chunks) {
+  const total = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+  const out = new Uint8Array(total);
+  let offset = 0;
+  chunks.forEach((chunk) => {
+    out.set(chunk, offset);
+    offset += chunk.length;
+  });
+  return out;
+}
+
+function dosDateTime(date = new Date()) {
+  const year = Math.max(1980, date.getFullYear());
+  const dosTime = (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2);
+  const dosDate = ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
+  return { dosDate, dosTime };
+}
+
+function zipFiles(files) {
+  const encoder = new TextEncoder();
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+  const { dosDate, dosTime } = dosDateTime();
+
+  files.forEach((file) => {
+    const nameBytes = encoder.encode(file.name);
+    const dataBytes = typeof file.content === "string" ? encoder.encode(file.content) : file.content;
+    const crc = crc32(dataBytes);
+    const localHeader = concatBytes([
+      uint32(0x04034b50),
+      uint16(20),
+      uint16(0),
+      uint16(0),
+      uint16(dosTime),
+      uint16(dosDate),
+      uint32(crc),
+      uint32(dataBytes.length),
+      uint32(dataBytes.length),
+      uint16(nameBytes.length),
+      uint16(0),
+      nameBytes,
+    ]);
+    localParts.push(localHeader, dataBytes);
+
+    centralParts.push(concatBytes([
+      uint32(0x02014b50),
+      uint16(20),
+      uint16(20),
+      uint16(0),
+      uint16(0),
+      uint16(dosTime),
+      uint16(dosDate),
+      uint32(crc),
+      uint32(dataBytes.length),
+      uint32(dataBytes.length),
+      uint16(nameBytes.length),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint16(0),
+      uint32(0),
+      uint32(offset),
+      nameBytes,
+    ]));
+    offset += localHeader.length + dataBytes.length;
+  });
+
+  const local = concatBytes(localParts);
+  const central = concatBytes(centralParts);
+  const end = concatBytes([
+    uint32(0x06054b50),
+    uint16(0),
+    uint16(0),
+    uint16(files.length),
+    uint16(files.length),
+    uint32(central.length),
+    uint32(local.length),
+    uint16(0),
+  ]);
+  return concatBytes([local, central, end]);
+}
+
+function resultFileName(extension) {
+  const reviewer = (state.reviewerId || "reviewer").replace(/[^a-z0-9_-]+/gi, "_");
+  return `pv_ljt_audio_review_${reviewer}_${state.voice}_${state.taskKey}.${extension}`;
+}
+
+function downloadBlob(blob, fileName) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  const reviewer = state.reviewerId || "reviewer";
   link.href = url;
-  link.download = `pv_ljt_audio_review_${reviewer}_${state.voice}_${state.taskKey}.csv`;
+  link.download = fileName;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+function exportWorkbook() {
+  if (!ensureExportReady()) {
+    return;
+  }
+  const data = buildExportData();
+  const workbook = makeXlsxBlob([
+    { name: "Session", rows: data.sessionRows },
+    { name: "Responses", rows: [data.responseHeaders, ...data.responseRows] },
+    { name: "Trial_Order", rows: [data.trialOrderHeaders, ...data.trialOrderRows] },
+    { name: "Codebook", rows: data.codebookRows },
+  ]);
+  downloadBlob(workbook, resultFileName("xlsx"));
 }
 
 function advanceOrExport() {
@@ -678,12 +998,21 @@ function advanceOrExport() {
     return;
   }
   if (state.currentIndex >= state.trialPlan.length - 1) {
-    exportCsv();
+    exportWorkbook();
     return;
   }
   state.currentIndex += 1;
   saveSession();
   render();
+}
+
+function goBack() {
+  persistCurrentFields();
+  if (state.currentIndex > 0) {
+    state.currentIndex -= 1;
+    saveSession();
+    render();
+  }
 }
 
 function bindEvents() {
@@ -756,8 +1085,9 @@ function bindEvents() {
     input.addEventListener("change", persistCurrentFields);
   });
   els.commentBox.addEventListener("blur", persistCurrentFields);
+  els.backButton.addEventListener("click", goBack);
   els.nextButton.addEventListener("click", advanceOrExport);
-  els.exportButton.addEventListener("click", exportCsv);
+  els.exportButton.addEventListener("click", exportWorkbook);
 
   els.resetButton.addEventListener("click", async () => {
     if (!window.confirm("Clear saved responses for this task, voice, and reviewer ID?")) {
