@@ -1,0 +1,15 @@
+pv_id	pv	decision	rationale
+pv_003	give out	revise	The original outcome was very extreme; revised to a milder contradiction.
+pv_004	put in	revise	Made the time/effort object explicit and parallel across conditions.
+pv_007	hold back	revise	Made the consequence cue parallel across conditions.
+pv_010	come along	keep_with_review	Retain; still worth expert check for contradiction strength in audio.
+pv_017	make out	revise	Removed phone/sign modality mismatch; now targets difficulty/clarity contradiction.
+pv_022	cut off	revise	Made speaker reference parallel and reduced alternative segment-ending interpretation.
+pv_023	bring in	keep	BERT-only issue; LJT contrast is semantically clear.
+pv_034	take out	keep	BERT-only issue; loan/borrow contrast is semantically clear.
+pv_006	sit back	keep	Target-fit gap likely reflects strong diagnostic contrast rather than a defect.
+pv_015	put on	keep	BERT-only issue; event-staging contrast is semantically clear.
+pv_038	come on	keep_with_review	Retain but mark as prosody-sensitive for recording.
+pv_042	carry out	revise	Changed from collocational academic near-miss to completed-task contradiction.
+pv_047	lay out	revise	Changed from unclear-order mismatch to explicit no-description contradiction.
+pv_048	work out	revise	Changed from copying-method mismatch to no-solution-process contradiction.

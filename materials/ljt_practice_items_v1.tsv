@@ -1,0 +1,7 @@
+practice_id	pv	condition	expected_response	target_form	sentence_text	intended_sense	mismatch_type	notes
+practice_ljt_001	wake up	acceptable	acceptable	woke up	Mina woke up before the alarm.	stop sleeping	none	practice only; not in target set
+practice_ljt_002	wake up	unacceptable	unacceptable	woke up	Mina woke up before the alarm but stayed asleep until noon.	stop sleeping	semantic_contradiction	practice only; not in target set
+practice_ljt_003	write down	acceptable	acceptable	write down	Please write down the number before you forget it.	record in writing	none	practice only; not in target set
+practice_ljt_004	write down	unacceptable	unacceptable	write down	Please write down the number but do not write anything.	record in writing	semantic_contradiction	practice only; not in target set
+practice_ljt_005	give up	acceptable	acceptable	gave up	He gave up smoking last year.	stop doing something	none	practice only; not in target set
+practice_ljt_006	give up	unacceptable	unacceptable	gave up	He gave up smoking last year but continued to smoke every day.	stop doing something	semantic_contradiction	practice only; not in target set

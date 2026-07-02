@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PV-LJT Audio Review</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Collaborator audio review</p>
+          <h1>PV-LJT Listening Tasks</h1>
+        </div>
+        <div class="status-pill" id="saveStatus">Ready</div>
+      </header>
+
+      <section class="setup-panel" aria-label="Review setup">
+        <label class="field">
+          <span>Reviewer ID</span>
+          <input id="reviewerId" autocomplete="off" placeholder="e.g., reviewer01">
+        </label>
+
+        <fieldset class="segmented" aria-label="Voice">
+          <legend>Voice</legend>
+          <label>
+            <input type="radio" name="voice" value="male" checked>
+            <span>Male</span>
+          </label>
+          <label>
+            <input type="radio" name="voice" value="female">
+            <span>Female</span>
+          </label>
+        </fieldset>
+
+        <label class="field">
+          <span>Task</span>
+          <select id="taskSelect">
+            <option value="ljt_a">Aural PV-LJT List A</option>
+            <option value="ljt_b">Aural PV-LJT List B</option>
+            <option value="audio_decision">Audio PV decision</option>
+          </select>
+        </label>
+
+        <label class="toggle">
+          <input id="showText" type="checkbox">
+          <span>Show item text after response</span>
+        </label>
+      </section>
+
+      <section class="review-layout">
+        <aside class="trial-list" aria-label="Trials">
+          <div class="list-head">
+            <strong id="taskLabel">Aural PV-LJT List A</strong>
+            <span id="progressText">0 / 0</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <div id="trialNav" class="trial-nav"></div>
+        </aside>
+
+        <section class="trial-panel" aria-label="Current trial">
+          <div class="trial-meta">
+            <span id="phaseLabel">Practice</span>
+            <span id="trialCounter">Trial 1</span>
+          </div>
+
+          <div class="audio-box">
+            <audio id="audioPlayer" controls preload="metadata"></audio>
+            <button id="replayButton" class="secondary" type="button">Replay</button>
+          </div>
+
+          <div class="prompt-card">
+            <h2 id="promptTitle">Acceptable or unacceptable?</h2>
+            <p id="promptCopy">Judge the sentence meaning from the audio.</p>
+          </div>
+
+          <div id="responseButtons" class="response-grid"></div>
+
+          <div id="textReveal" class="text-reveal" hidden>
+            <span>Item text</span>
+            <p id="stimulusText"></p>
+          </div>
+
+          <section class="quality-panel" aria-label="Audio review flags">
+            <h3>Audio review</h3>
+            <div class="quality-grid">
+              <label><input type="checkbox" value="clear"> Clear</label>
+              <label><input type="checkbox" value="wrong_text"> Wrong text</label>
+              <label><input type="checkbox" value="unnatural_prosody"> Unnatural prosody</label>
+              <label><input type="checkbox" value="verb_particle_pause"> Verb-particle pause</label>
+              <label><input type="checkbox" value="volume_issue"> Volume issue</label>
+              <label><input type="checkbox" value="noise_or_clipping"> Noise or clipping</label>
+            </div>
+            <label class="field comment-field">
+              <span>Comment</span>
+              <textarea id="commentBox" rows="3"></textarea>
+            </label>
+          </section>
+
+          <div class="actions">
+            <button id="prevButton" class="secondary" type="button">Previous</button>
+            <button id="nextButton" type="button">Next</button>
+            <button id="exportButton" class="secondary" type="button">Export CSV</button>
+            <button id="resetButton" class="danger" type="button">Clear Task</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

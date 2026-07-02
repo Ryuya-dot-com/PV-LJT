@@ -1,0 +1,13 @@
+task	practice_id	item_type	stimulus_or_sentence	option_a	option_b	option_c	option_d	correct_response	notes
+orthographic	practice_ortho_001	real	She wakes up at six every morning.	start sleeping	stop working	get out of bed	make something public	C	not in target set
+orthographic	practice_ortho_002	real	Please write down your email address.	record in writing	summarize briefly	reduce the amount	leave a place	A	not in target set
+orthographic	practice_ortho_003	real	He gave up smoking last year.	return something	stop doing something	make something higher	discover information	B	not in target set
+orthographic	practice_ortho_004	real	You should check out the new library website.	leave a hotel	make something clean	look at or investigate something	move to a higher rank	C	not in target set
+audio_decision	practice_audio_001	real	wake up					yes	not in target set
+audio_decision	practice_audio_002	real	write down					yes	not in target set
+audio_decision	practice_audio_003	real	give up					yes	not in target set
+audio_decision	practice_audio_004	real	check out					yes	not in target set
+audio_decision	practice_audio_005	foil	wake beneath					no	foil candidate for instruction only
+audio_decision	practice_audio_006	foil	write above					no	foil candidate for instruction only
+audio_decision	practice_audio_007	foil	give beside					no	foil candidate for instruction only
+audio_decision	practice_audio_008	foil	check along					no	foil candidate for instruction only

@@ -1,0 +1,97 @@
+trial_id	item_type	stimulus_text	matched_target_pv	correct_response	foil_type	screening_status	in_phave_or_sandaw_top150	wordnet_verb_expression_hit	notes
+audio_v2_001	real	break off	break off	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_002	real	hand over	hand over	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_003	real	give out	give out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_004	real	put in	put in	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_005	real	take in	take in	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_006	real	sit back	sit back	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_007	real	hold back	hold back	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_008	real	move up	move up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_009	real	get on	get on	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_010	real	come along	come along	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_011	real	stand out	stand out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_012	real	pull back	pull back	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_013	real	run out	run out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_014	real	turn over	turn over	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_015	real	put on	put on	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_016	real	take back	take back	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_017	real	make out	make out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_018	real	pay off	pay off	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_019	real	get off	get off	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_020	real	turn up	turn up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_021	real	get down	get down	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_022	real	cut off	cut off	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_023	real	bring in	bring in	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_024	real	put out	put out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_025	real	clean up	clean up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_026	real	set out	set out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_027	real	break down	break down	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_028	real	reach out	reach out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_029	real	keep up	keep up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_030	real	put up	put up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_031	real	turn around	turn around	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_032	real	back up	back up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_033	real	look out	look out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_034	real	take out	take out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_035	real	look back	look back	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_036	real	go up	go up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_037	real	go down	go down	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_038	real	come on	come on	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_039	real	come in	come in	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_040	real	come out	come out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_041	real	bring about	bring about	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_042	real	carry out	carry out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_043	real	rule out	rule out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_044	real	point out	point out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_045	real	sum up	sum up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_046	real	follow up	follow up	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_047	real	lay out	lay out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_048	real	work out	work out	yes	target_pv	ready_for_audio_recording	yes	yes	same real target set as v1
+audio_v2_049	foil	explain up		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_050	foil	describe off		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_051	foil	mention down		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_052	foil	require out		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_053	foil	include back		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_054	foil	compare up		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_055	foil	suggest over		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_056	foil	observe around		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_057	foil	prefer down		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_058	foil	accept off		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_059	foil	report up		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_060	foil	claim out		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_061	foil	argue back		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_062	foil	notice through		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_063	foil	prepare on		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_064	foil	measure back		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_065	foil	design off		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_066	foil	choose down		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_067	foil	define out		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_068	foil	reduce on		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_069	foil	increase back		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_070	foil	examine up		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_071	foil	identify off		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_072	foil	estimate around		no	pseudo_particle_non_pv	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_073	foil	walk across		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_074	foil	sleep outside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_075	foil	wait inside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_076	foil	travel beyond		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_077	foil	stand below		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_078	foil	sit near		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_079	foil	drive past		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_080	foil	lean beside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_081	foil	swim across		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_082	foil	crawl under		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_083	foil	pause before		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_084	foil	arrive after		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_085	foil	stay near		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_086	foil	live beside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_087	foil	kneel beside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_088	foil	fly above		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_089	foil	park outside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_090	foil	rest inside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_091	foil	turn left		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_092	foil	look north		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_093	foil	step sideways		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_094	foil	move sideways		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_095	foil	wait outside		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV
+audio_v2_096	foil	walk nearby		no	natural_free_combination	needs_native_screening	no	no	candidate no item; verify that raters do not judge it as a common PV

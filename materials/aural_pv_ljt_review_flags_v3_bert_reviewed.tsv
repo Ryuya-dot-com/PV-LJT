@@ -1,0 +1,8 @@
+ljt_item_id	pv	issue_type	why_to_review	suggested_review_focus
+ljt_010b	come along	semantic_contradiction_strength	The revised sentence is less odd, but it relies on contradiction between a chance coming along and nothing new appearing.	Check whether the mismatch is clear in audio.
+ljt_017b	make out	modality_mismatch	The revised sentence uses a modality mismatch: seeing a sign over the phone.	Check whether this targets the PV sense rather than general world knowledge.
+ljt_022b	cut off	temporal_mismatch	The revised sentence says the guest had finished speaking, so interruption is not appropriate.	Check whether listeners interpret it as ending the segment rather than interrupting.
+ljt_038b	come on	prosody_sensitive	The discourse marker depends heavily on intonation; sincere agreement prosody is needed.	Check whether this item should be recorded with controlled prosody or dropped.
+ljt_042b	carry out	academic_near_miss	Carrying out a hypothesis is an academic near-miss; it may be collocational rather than semantic.	Check whether this is acceptable for the LJT construct.
+ljt_047b	lay out	clarity_mismatch	The revised sentence targets lack of clear organization.	Check whether `laid out` can still mean present a plan even if order is unclear.
+ljt_048b	work out	method_mismatch	The revised sentence says the answer was copied, not solved or calculated.	Check whether learners might still accept `worked out the answer` because the answer is present.

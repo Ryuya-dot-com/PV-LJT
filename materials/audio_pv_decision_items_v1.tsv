@@ -1,0 +1,97 @@
+trial_id	item_type	stimulus_text	matched_target_pv	correct_response	foil_strategy	status	notes
+audio_001	real	break off	break off	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_002	real	hand over	hand over	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_003	real	give out	give out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_004	real	put in	put in	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_005	real	take in	take in	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_006	real	sit back	sit back	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_007	real	hold back	hold back	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_008	real	move up	move up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_009	real	get on	get on	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_010	real	come along	come along	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_011	real	stand out	stand out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_012	real	pull back	pull back	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_013	real	run out	run out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_014	real	turn over	turn over	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_015	real	put on	put on	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_016	real	take back	take back	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_017	real	make out	make out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_018	real	pay off	pay off	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_019	real	get off	get off	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_020	real	turn up	turn up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_021	real	get down	get down	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_022	real	cut off	cut off	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_023	real	bring in	bring in	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_024	real	put out	put out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_025	real	clean up	clean up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_026	real	set out	set out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_027	real	break down	break down	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_028	real	reach out	reach out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_029	real	keep up	keep up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_030	real	put up	put up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_031	real	turn around	turn around	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_032	real	back up	back up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_033	real	look out	look out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_034	real	take out	take out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_035	real	look back	look back	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_036	real	go up	go up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_037	real	go down	go down	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_038	real	come on	come on	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_039	real	come in	come in	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_040	real	come out	come out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_041	real	bring about	bring about	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_042	real	carry out	carry out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_043	real	rule out	rule out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_044	real	point out	point out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_045	real	sum up	sum up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_046	real	follow up	follow up	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_047	real	lay out	lay out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_048	real	work out	work out	yes	target_pv	candidate	present as isolated two-word audio stimulus
+audio_049	foil	break along	break off	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_050	foil	hand under	hand over	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_051	foil	give across	give out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_052	foil	put along	put in	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_053	foil	take above	take in	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_054	foil	sit over	sit back	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_055	foil	hold across	hold back	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_056	foil	move under	move up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_057	foil	get beside	get on	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_058	foil	come beyond	come along	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_059	foil	stand through	stand out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_060	foil	pull under	pull back	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_061	foil	run above	run out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_062	foil	turn along	turn over	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_063	foil	put beside	put on	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_064	foil	take beside	take back	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_065	foil	make under	make out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_066	foil	pay under	pay off	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_067	foil	get above	get off	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_068	foil	turn beside	turn up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_069	foil	get beyond	get down	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_070	foil	cut above	cut off	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_071	foil	bring below	bring in	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_072	foil	put beyond	put out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_073	foil	clean along	clean up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_074	foil	set across	set out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_075	foil	break above	break down	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_076	foil	reach under	reach out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_077	foil	keep along	keep up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_078	foil	put beneath	put up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_079	foil	turn beyond	turn around	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_080	foil	back under	back up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_081	foil	look beside	look out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_082	foil	take beneath	take out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_083	foil	look beneath	look back	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_084	foil	go beside	go up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_085	foil	go above	go down	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_086	foil	come beside	come on	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_087	foil	come above	come in	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_088	foil	come beneath	come out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_089	foil	bring beside	bring about	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_090	foil	carry above	carry out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_091	foil	rule below	rule out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_092	foil	point beneath	point out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_093	foil	sum below	sum up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_094	foil	follow above	follow up	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_095	foil	lay below	lay out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status
+audio_096	foil	work above	work out	no	same_verb_wrong_particle	needs_native_screening	foil should be checked for naturalness and accidental PV status

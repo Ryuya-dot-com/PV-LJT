@@ -1,0 +1,13 @@
+ljt_item_id	pv	issue_type	why_to_review	suggested_review_focus
+ljt_007b	hold back	possible_alternative_interpretation	Extra support could hold learners back in some contexts if it is excessive.	Check whether the mismatch is clear enough.
+ljt_010b	come along	possible_too_odd	A heavy chair came along may sound odd because the subject is inanimate.	Check whether it is a useful semantic mismatch or too easy.
+ljt_011b	stand out	possible_context_dependence	An ordinary answer could still stand out if other answers are worse.	Check whether ordinary conflicts strongly enough with best answer.
+ljt_017b	make out	possible_too_odd	Making out the silence is semantically odd and may be too easy.	Check whether a less extreme auditory/visual mismatch is preferable.
+ljt_022b	cut off	possible_alternative_interpretation	Cutting someone off before speaking may mean preventing them from speaking.	Check whether this still counts as an interruption sense.
+ljt_025b	clean up	possible_too_odd	Honest weather is very unnatural.	Check whether the mismatch targets the PV rather than general sentence anomaly.
+ljt_033b	look out	possible_too_odd	Looking out at the silence is very unnatural.	Check whether the item is too easy.
+ljt_038b	come on	possible_pragmatic_ambiguity	The sentence could be read sarcastically.	Check whether discourse meaning is clear in audio.
+ljt_039b	come in	possible_alternative_interpretation	Came in may be interpreted physically rather than as becoming involved.	Check whether the target sense is controlled.
+ljt_041b	bring about	semantic_contradiction	No effect at all clearly contradicts brought about, but may be too explicit.	Check whether contradiction is acceptable for LJT.
+ljt_046b	follow up	possible_too_odd	Following up with a cloud is very unnatural.	Check whether a more plausible wrong follow-up object is needed.
+ljt_047b	lay out	possible_alternative_interpretation	Lay out the soup could be possible in a physical arrangement sense.	Check whether introduction as subject blocks the literal interpretation.

@@ -1,0 +1,9 @@
+pattern_id	ljt_correct	audio_decision_correct	orthographic_recognition_correct	primary_interpretation	irtree_state	recommended_handling
+pat_111	1	1	1	Contextual aural use, aural PV familiarity, and explicit orthographic meaning are all present.	automated_contextual_pv_knowledge	retain as highest-knowledge state
+pat_011	0	1	1	Explicit meaning and aural form familiarity are present, but contextual aural judgment is not yet reliable.	declarative_plus_aural_form_without_automatized_use	retain as theoretically central intermediate state
+pat_001	0	0	1	Meaning is recognized in print, but aural PV form and contextual aural use are not reliable.	orthographic_meaning_only	retain as lower-knowledge state
+pat_000	0	0	0	No evidence of reliable knowledge on the three tasks.	no_observed_pv_knowledge	retain as lowest-knowledge state
+pat_010	0	1	0	Aural form familiarity without explicit meaning recognition; may reflect formula familiarity, guessing, or task noise.	form_familiarity_without_explicit_meaning	retain but inspect; possible separate latent process
+pat_101	1	0	1	Contextual LJT and orthographic meaning correct but decision incorrect; may reflect decision-task noise or response slip.	inconsistent_ljt_plus_meaning	retain but flag as hierarchy violation
+pat_110	1	1	0	Contextual LJT and aural decision correct but recognition incorrect; may reflect context-driven guessing or weak explicit definition knowledge.	inconsistent_context_without_recognition	retain but flag as hierarchy violation
+pat_100	1	0	0	Only LJT correct; likely chance, context cueing, or unstable response.	ljt_only_inconsistent	retain but flag as hierarchy violation

@@ -1,0 +1,8 @@
+ljt_item_id	pv	issue_type	why_to_review	suggested_review_focus
+ljt_010b	come along	semantic_contradiction_strength	The sentence relies on contradiction between a chance coming along and nothing new appearing.	Check whether the mismatch is clear in audio without making the item trivial.
+ljt_017b	make out	clarity_contradiction	The v4 sentence rejects barely making out a sign because the sign is clear and easy to read.	Check whether listeners reject the sentence for the intended perceptual-difficulty meaning.
+ljt_022b	cut off	temporal_mismatch	The v4 sentence says the answer was complete, so interruption is not appropriate.	Check whether listeners interpret cut off as interrupting, not ending a segment.
+ljt_038b	come on	prosody_sensitive	The discourse marker depends heavily on intonation; sincere agreement prosody is needed.	Check whether this item should be recorded with controlled prosody or dropped.
+ljt_042b	carry out	task_completion_contradiction	The v4 sentence says the survey was carried out but no data were collected.	Check whether this is a clear semantic mismatch for an academic task.
+ljt_047b	lay out	presentation_contradiction	The v4 sentence says the introduction laid out the plan for the paper but never described it.	Check whether the contradiction targets the present/explain sense clearly.
+ljt_048b	work out	solution_process_contradiction	The v4 sentence says the students worked out the answer but never tried to solve it.	Check whether learners might still accept the item from answer availability alone.

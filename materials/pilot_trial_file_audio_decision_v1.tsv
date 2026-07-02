@@ -1,0 +1,105 @@
+trial_order	phase	task	trial_id	item_type	stimulus_text	correct_response	foil_type	audio_file_name	notes
+1	practice	audio_pv_decision	practice_audio_001	real	wake up	yes		rec_practice_audio_001.wav	not in target set
+2	practice	audio_pv_decision	practice_audio_002	real	write down	yes		rec_practice_audio_002.wav	not in target set
+3	practice	audio_pv_decision	practice_audio_003	real	give up	yes		rec_practice_audio_003.wav	not in target set
+4	practice	audio_pv_decision	practice_audio_004	real	check out	yes		rec_practice_audio_004.wav	not in target set
+5	practice	audio_pv_decision	practice_audio_005	foil	wake beneath	no		rec_practice_audio_005.wav	foil candidate for instruction only
+6	practice	audio_pv_decision	practice_audio_006	foil	write above	no		rec_practice_audio_006.wav	foil candidate for instruction only
+7	practice	audio_pv_decision	practice_audio_007	foil	give beside	no		rec_practice_audio_007.wav	foil candidate for instruction only
+8	practice	audio_pv_decision	practice_audio_008	foil	check along	no		rec_practice_audio_008.wav	foil candidate for instruction only
+9	main	audio_pv_decision	audio_v2_016	real	take back	yes	target_pv	rec_audio_decision_audio_v2_016.wav	same real target set as v1
+10	main	audio_pv_decision	audio_v2_049	foil	explain up	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_049.wav	candidate no item; verify that raters do not judge it as a common PV
+11	main	audio_pv_decision	audio_v2_037	real	go down	yes	target_pv	rec_audio_decision_audio_v2_037.wav	same real target set as v1
+12	main	audio_pv_decision	audio_v2_074	foil	sleep outside	no	natural_free_combination	rec_audio_decision_audio_v2_074.wav	candidate no item; verify that raters do not judge it as a common PV
+13	main	audio_pv_decision	audio_v2_045	real	sum up	yes	target_pv	rec_audio_decision_audio_v2_045.wav	same real target set as v1
+14	main	audio_pv_decision	audio_v2_072	foil	estimate around	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_072.wav	candidate no item; verify that raters do not judge it as a common PV
+15	main	audio_pv_decision	audio_v2_038	real	come on	yes	target_pv	rec_audio_decision_audio_v2_038.wav	same real target set as v1
+16	main	audio_pv_decision	audio_v2_083	foil	pause before	no	natural_free_combination	rec_audio_decision_audio_v2_083.wav	candidate no item; verify that raters do not judge it as a common PV
+17	main	audio_pv_decision	audio_v2_071	foil	identify off	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_071.wav	candidate no item; verify that raters do not judge it as a common PV
+18	main	audio_pv_decision	audio_v2_078	foil	sit near	no	natural_free_combination	rec_audio_decision_audio_v2_078.wav	candidate no item; verify that raters do not judge it as a common PV
+19	main	audio_pv_decision	audio_v2_044	real	point out	yes	target_pv	rec_audio_decision_audio_v2_044.wav	same real target set as v1
+20	main	audio_pv_decision	audio_v2_029	real	keep up	yes	target_pv	rec_audio_decision_audio_v2_029.wav	same real target set as v1
+21	main	audio_pv_decision	audio_v2_081	foil	swim across	no	natural_free_combination	rec_audio_decision_audio_v2_081.wav	candidate no item; verify that raters do not judge it as a common PV
+22	main	audio_pv_decision	audio_v2_055	foil	suggest over	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_055.wav	candidate no item; verify that raters do not judge it as a common PV
+23	main	audio_pv_decision	audio_v2_051	foil	mention down	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_051.wav	candidate no item; verify that raters do not judge it as a common PV
+24	main	audio_pv_decision	audio_v2_026	real	set out	yes	target_pv	rec_audio_decision_audio_v2_026.wav	same real target set as v1
+25	main	audio_pv_decision	audio_v2_013	real	run out	yes	target_pv	rec_audio_decision_audio_v2_013.wav	same real target set as v1
+26	main	audio_pv_decision	audio_v2_079	foil	drive past	no	natural_free_combination	rec_audio_decision_audio_v2_079.wav	candidate no item; verify that raters do not judge it as a common PV
+27	main	audio_pv_decision	audio_v2_092	foil	look north	no	natural_free_combination	rec_audio_decision_audio_v2_092.wav	candidate no item; verify that raters do not judge it as a common PV
+28	main	audio_pv_decision	audio_v2_021	real	get down	yes	target_pv	rec_audio_decision_audio_v2_021.wav	same real target set as v1
+29	main	audio_pv_decision	audio_v2_093	foil	step sideways	no	natural_free_combination	rec_audio_decision_audio_v2_093.wav	candidate no item; verify that raters do not judge it as a common PV
+30	main	audio_pv_decision	audio_v2_053	foil	include back	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_053.wav	candidate no item; verify that raters do not judge it as a common PV
+31	main	audio_pv_decision	audio_v2_048	real	work out	yes	target_pv	rec_audio_decision_audio_v2_048.wav	same real target set as v1
+32	main	audio_pv_decision	audio_v2_023	real	bring in	yes	target_pv	rec_audio_decision_audio_v2_023.wav	same real target set as v1
+33	main	audio_pv_decision	audio_v2_030	real	put up	yes	target_pv	rec_audio_decision_audio_v2_030.wav	same real target set as v1
+34	main	audio_pv_decision	audio_v2_063	foil	prepare on	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_063.wav	candidate no item; verify that raters do not judge it as a common PV
+35	main	audio_pv_decision	audio_v2_052	foil	require out	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_052.wav	candidate no item; verify that raters do not judge it as a common PV
+36	main	audio_pv_decision	audio_v2_076	foil	travel beyond	no	natural_free_combination	rec_audio_decision_audio_v2_076.wav	candidate no item; verify that raters do not judge it as a common PV
+37	main	audio_pv_decision	audio_v2_004	real	put in	yes	target_pv	rec_audio_decision_audio_v2_004.wav	same real target set as v1
+38	main	audio_pv_decision	audio_v2_062	foil	notice through	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_062.wav	candidate no item; verify that raters do not judge it as a common PV
+39	main	audio_pv_decision	audio_v2_043	real	rule out	yes	target_pv	rec_audio_decision_audio_v2_043.wav	same real target set as v1
+40	main	audio_pv_decision	audio_v2_059	foil	report up	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_059.wav	candidate no item; verify that raters do not judge it as a common PV
+41	main	audio_pv_decision	audio_v2_019	real	get off	yes	target_pv	rec_audio_decision_audio_v2_019.wav	same real target set as v1
+42	main	audio_pv_decision	audio_v2_088	foil	fly above	no	natural_free_combination	rec_audio_decision_audio_v2_088.wav	candidate no item; verify that raters do not judge it as a common PV
+43	main	audio_pv_decision	audio_v2_089	foil	park outside	no	natural_free_combination	rec_audio_decision_audio_v2_089.wav	candidate no item; verify that raters do not judge it as a common PV
+44	main	audio_pv_decision	audio_v2_075	foil	wait inside	no	natural_free_combination	rec_audio_decision_audio_v2_075.wav	candidate no item; verify that raters do not judge it as a common PV
+45	main	audio_pv_decision	audio_v2_039	real	come in	yes	target_pv	rec_audio_decision_audio_v2_039.wav	same real target set as v1
+46	main	audio_pv_decision	audio_v2_033	real	look out	yes	target_pv	rec_audio_decision_audio_v2_033.wav	same real target set as v1
+47	main	audio_pv_decision	audio_v2_017	real	make out	yes	target_pv	rec_audio_decision_audio_v2_017.wav	same real target set as v1
+48	main	audio_pv_decision	audio_v2_086	foil	live beside	no	natural_free_combination	rec_audio_decision_audio_v2_086.wav	candidate no item; verify that raters do not judge it as a common PV
+49	main	audio_pv_decision	audio_v2_066	foil	choose down	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_066.wav	candidate no item; verify that raters do not judge it as a common PV
+50	main	audio_pv_decision	audio_v2_096	foil	walk nearby	no	natural_free_combination	rec_audio_decision_audio_v2_096.wav	candidate no item; verify that raters do not judge it as a common PV
+51	main	audio_pv_decision	audio_v2_080	foil	lean beside	no	natural_free_combination	rec_audio_decision_audio_v2_080.wav	candidate no item; verify that raters do not judge it as a common PV
+52	main	audio_pv_decision	audio_v2_036	real	go up	yes	target_pv	rec_audio_decision_audio_v2_036.wav	same real target set as v1
+53	main	audio_pv_decision	audio_v2_012	real	pull back	yes	target_pv	rec_audio_decision_audio_v2_012.wav	same real target set as v1
+54	main	audio_pv_decision	audio_v2_025	real	clean up	yes	target_pv	rec_audio_decision_audio_v2_025.wav	same real target set as v1
+55	main	audio_pv_decision	audio_v2_022	real	cut off	yes	target_pv	rec_audio_decision_audio_v2_022.wav	same real target set as v1
+56	main	audio_pv_decision	audio_v2_047	real	lay out	yes	target_pv	rec_audio_decision_audio_v2_047.wav	same real target set as v1
+57	main	audio_pv_decision	audio_v2_065	foil	design off	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_065.wav	candidate no item; verify that raters do not judge it as a common PV
+58	main	audio_pv_decision	audio_v2_018	real	pay off	yes	target_pv	rec_audio_decision_audio_v2_018.wav	same real target set as v1
+59	main	audio_pv_decision	audio_v2_002	real	hand over	yes	target_pv	rec_audio_decision_audio_v2_002.wav	same real target set as v1
+60	main	audio_pv_decision	audio_v2_014	real	turn over	yes	target_pv	rec_audio_decision_audio_v2_014.wav	same real target set as v1
+61	main	audio_pv_decision	audio_v2_031	real	turn around	yes	target_pv	rec_audio_decision_audio_v2_031.wav	same real target set as v1
+62	main	audio_pv_decision	audio_v2_008	real	move up	yes	target_pv	rec_audio_decision_audio_v2_008.wav	same real target set as v1
+63	main	audio_pv_decision	audio_v2_009	real	get on	yes	target_pv	rec_audio_decision_audio_v2_009.wav	same real target set as v1
+64	main	audio_pv_decision	audio_v2_007	real	hold back	yes	target_pv	rec_audio_decision_audio_v2_007.wav	same real target set as v1
+65	main	audio_pv_decision	audio_v2_061	foil	argue back	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_061.wav	candidate no item; verify that raters do not judge it as a common PV
+66	main	audio_pv_decision	audio_v2_091	foil	turn left	no	natural_free_combination	rec_audio_decision_audio_v2_091.wav	candidate no item; verify that raters do not judge it as a common PV
+67	main	audio_pv_decision	audio_v2_085	foil	stay near	no	natural_free_combination	rec_audio_decision_audio_v2_085.wav	candidate no item; verify that raters do not judge it as a common PV
+68	main	audio_pv_decision	audio_v2_015	real	put on	yes	target_pv	rec_audio_decision_audio_v2_015.wav	same real target set as v1
+69	main	audio_pv_decision	audio_v2_042	real	carry out	yes	target_pv	rec_audio_decision_audio_v2_042.wav	same real target set as v1
+70	main	audio_pv_decision	audio_v2_073	foil	walk across	no	natural_free_combination	rec_audio_decision_audio_v2_073.wav	candidate no item; verify that raters do not judge it as a common PV
+71	main	audio_pv_decision	audio_v2_082	foil	crawl under	no	natural_free_combination	rec_audio_decision_audio_v2_082.wav	candidate no item; verify that raters do not judge it as a common PV
+72	main	audio_pv_decision	audio_v2_006	real	sit back	yes	target_pv	rec_audio_decision_audio_v2_006.wav	same real target set as v1
+73	main	audio_pv_decision	audio_v2_090	foil	rest inside	no	natural_free_combination	rec_audio_decision_audio_v2_090.wav	candidate no item; verify that raters do not judge it as a common PV
+74	main	audio_pv_decision	audio_v2_027	real	break down	yes	target_pv	rec_audio_decision_audio_v2_027.wav	same real target set as v1
+75	main	audio_pv_decision	audio_v2_095	foil	wait outside	no	natural_free_combination	rec_audio_decision_audio_v2_095.wav	candidate no item; verify that raters do not judge it as a common PV
+76	main	audio_pv_decision	audio_v2_028	real	reach out	yes	target_pv	rec_audio_decision_audio_v2_028.wav	same real target set as v1
+77	main	audio_pv_decision	audio_v2_011	real	stand out	yes	target_pv	rec_audio_decision_audio_v2_011.wav	same real target set as v1
+78	main	audio_pv_decision	audio_v2_056	foil	observe around	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_056.wav	candidate no item; verify that raters do not judge it as a common PV
+79	main	audio_pv_decision	audio_v2_064	foil	measure back	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_064.wav	candidate no item; verify that raters do not judge it as a common PV
+80	main	audio_pv_decision	audio_v2_003	real	give out	yes	target_pv	rec_audio_decision_audio_v2_003.wav	same real target set as v1
+81	main	audio_pv_decision	audio_v2_094	foil	move sideways	no	natural_free_combination	rec_audio_decision_audio_v2_094.wav	candidate no item; verify that raters do not judge it as a common PV
+82	main	audio_pv_decision	audio_v2_034	real	take out	yes	target_pv	rec_audio_decision_audio_v2_034.wav	same real target set as v1
+83	main	audio_pv_decision	audio_v2_060	foil	claim out	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_060.wav	candidate no item; verify that raters do not judge it as a common PV
+84	main	audio_pv_decision	audio_v2_041	real	bring about	yes	target_pv	rec_audio_decision_audio_v2_041.wav	same real target set as v1
+85	main	audio_pv_decision	audio_v2_070	foil	examine up	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_070.wav	candidate no item; verify that raters do not judge it as a common PV
+86	main	audio_pv_decision	audio_v2_068	foil	reduce on	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_068.wav	candidate no item; verify that raters do not judge it as a common PV
+87	main	audio_pv_decision	audio_v2_024	real	put out	yes	target_pv	rec_audio_decision_audio_v2_024.wav	same real target set as v1
+88	main	audio_pv_decision	audio_v2_077	foil	stand below	no	natural_free_combination	rec_audio_decision_audio_v2_077.wav	candidate no item; verify that raters do not judge it as a common PV
+89	main	audio_pv_decision	audio_v2_035	real	look back	yes	target_pv	rec_audio_decision_audio_v2_035.wav	same real target set as v1
+90	main	audio_pv_decision	audio_v2_032	real	back up	yes	target_pv	rec_audio_decision_audio_v2_032.wav	same real target set as v1
+91	main	audio_pv_decision	audio_v2_084	foil	arrive after	no	natural_free_combination	rec_audio_decision_audio_v2_084.wav	candidate no item; verify that raters do not judge it as a common PV
+92	main	audio_pv_decision	audio_v2_001	real	break off	yes	target_pv	rec_audio_decision_audio_v2_001.wav	same real target set as v1
+93	main	audio_pv_decision	audio_v2_069	foil	increase back	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_069.wav	candidate no item; verify that raters do not judge it as a common PV
+94	main	audio_pv_decision	audio_v2_050	foil	describe off	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_050.wav	candidate no item; verify that raters do not judge it as a common PV
+95	main	audio_pv_decision	audio_v2_040	real	come out	yes	target_pv	rec_audio_decision_audio_v2_040.wav	same real target set as v1
+96	main	audio_pv_decision	audio_v2_020	real	turn up	yes	target_pv	rec_audio_decision_audio_v2_020.wav	same real target set as v1
+97	main	audio_pv_decision	audio_v2_087	foil	kneel beside	no	natural_free_combination	rec_audio_decision_audio_v2_087.wav	candidate no item; verify that raters do not judge it as a common PV
+98	main	audio_pv_decision	audio_v2_054	foil	compare up	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_054.wav	candidate no item; verify that raters do not judge it as a common PV
+99	main	audio_pv_decision	audio_v2_067	foil	define out	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_067.wav	candidate no item; verify that raters do not judge it as a common PV
+100	main	audio_pv_decision	audio_v2_010	real	come along	yes	target_pv	rec_audio_decision_audio_v2_010.wav	same real target set as v1
+101	main	audio_pv_decision	audio_v2_058	foil	accept off	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_058.wav	candidate no item; verify that raters do not judge it as a common PV
+102	main	audio_pv_decision	audio_v2_046	real	follow up	yes	target_pv	rec_audio_decision_audio_v2_046.wav	same real target set as v1
+103	main	audio_pv_decision	audio_v2_005	real	take in	yes	target_pv	rec_audio_decision_audio_v2_005.wav	same real target set as v1
+104	main	audio_pv_decision	audio_v2_057	foil	prefer down	no	pseudo_particle_non_pv	rec_audio_decision_audio_v2_057.wav	candidate no item; verify that raters do not judge it as a common PV

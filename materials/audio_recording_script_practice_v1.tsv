@@ -1,0 +1,15 @@
+recording_id	audio_file_name	task	practice_id	item_type	text_to_record	correct_response	recording_notes
+rec_practice_ljt_001	rec_practice_ljt_001.wav	aural_pv_ljt_practice	practice_ljt_001	acceptable	Mina woke up before the alarm.	acceptable	Practice item; record with the same voice and pacing as main LJT items.
+rec_practice_ljt_002	rec_practice_ljt_002.wav	aural_pv_ljt_practice	practice_ljt_002	unacceptable	Mina woke up before the alarm but stayed asleep until noon.	unacceptable	Practice item; record with the same voice and pacing as main LJT items.
+rec_practice_ljt_003	rec_practice_ljt_003.wav	aural_pv_ljt_practice	practice_ljt_003	acceptable	Please write down the number before you forget it.	acceptable	Practice item; record with the same voice and pacing as main LJT items.
+rec_practice_ljt_004	rec_practice_ljt_004.wav	aural_pv_ljt_practice	practice_ljt_004	unacceptable	Please write down the number but do not write anything.	unacceptable	Practice item; record with the same voice and pacing as main LJT items.
+rec_practice_ljt_005	rec_practice_ljt_005.wav	aural_pv_ljt_practice	practice_ljt_005	acceptable	He gave up smoking last year.	acceptable	Practice item; record with the same voice and pacing as main LJT items.
+rec_practice_ljt_006	rec_practice_ljt_006.wav	aural_pv_ljt_practice	practice_ljt_006	unacceptable	He gave up smoking last year but continued to smoke every day.	unacceptable	Practice item; record with the same voice and pacing as main LJT items.
+rec_practice_audio_001	rec_practice_audio_001.wav	audio_pv_decision_practice	practice_audio_001	real	wake up	yes	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_002	rec_practice_audio_002.wav	audio_pv_decision_practice	practice_audio_002	real	write down	yes	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_003	rec_practice_audio_003.wav	audio_pv_decision_practice	practice_audio_003	real	give up	yes	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_004	rec_practice_audio_004.wav	audio_pv_decision_practice	practice_audio_004	real	check out	yes	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_005	rec_practice_audio_005.wav	audio_pv_decision_practice	practice_audio_005	foil	wake beneath	no	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_006	rec_practice_audio_006.wav	audio_pv_decision_practice	practice_audio_006	foil	write above	no	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_007	rec_practice_audio_007.wav	audio_pv_decision_practice	practice_audio_007	foil	give beside	no	Practice item; record as an isolated two-word stimulus with neutral stress.
+rec_practice_audio_008	rec_practice_audio_008.wav	audio_pv_decision_practice	practice_audio_008	foil	check along	no	Practice item; record as an isolated two-word stimulus with neutral stress.
