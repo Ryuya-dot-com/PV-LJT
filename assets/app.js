@@ -82,6 +82,7 @@ const els = {
   commentBox: document.getElementById("commentBox"),
   nextButton: document.getElementById("nextButton"),
   exportButton: document.getElementById("exportButton"),
+  exportStatus: document.getElementById("exportStatus"),
   resetButton: document.getElementById("resetButton"),
   saveStatus: document.getElementById("saveStatus"),
 };
@@ -434,6 +435,10 @@ function completedCount() {
   }).length;
 }
 
+function allTrialsComplete(done = completedCount()) {
+  return state.trialPlan.length > 0 && done === state.trialPlan.length;
+}
+
 function isComplete(saved) {
   return !!(
     saved &&
@@ -444,7 +449,7 @@ function isComplete(saved) {
 }
 
 function ratingLabel(value, touched) {
-  return touched ? `${value} / 6` : "Move slider to rate";
+  return touched ? `${value} / 6` : "Not rated";
 }
 
 function setSlider(slider, output, value, touched) {
@@ -500,6 +505,8 @@ function render() {
   ensureTrialStarted();
   const saved = currentResponse();
   const done = completedCount();
+  const remaining = Math.max(0, state.trialPlan.length - done);
+  const canExport = allTrialsComplete(done);
   const phase = trial.phase === "practice" ? "Practice" : "Main";
   const randomization = state.randomization || {};
 
@@ -521,9 +528,15 @@ function render() {
   els.progressText.textContent = `${done} / ${state.trialPlan.length}`;
   els.progressBar.style.width = `${state.trialPlan.length ? (done / state.trialPlan.length) * 100 : 0}%`;
   els.nextButton.disabled = !isComplete(saved);
-  els.nextButton.textContent = state.currentIndex === state.trialPlan.length - 1
-    ? "Export CSV"
-    : "Next";
+  if (state.currentIndex === state.trialPlan.length - 1) {
+    els.nextButton.textContent = canExport ? "Download CSV" : "Finish trial";
+  } else {
+    els.nextButton.textContent = "Next";
+  }
+  els.exportButton.disabled = !canExport;
+  els.exportStatus.textContent = canExport
+    ? "All trials complete"
+    : `${remaining} trial${remaining === 1 ? "" : "s"} remaining before CSV`;
 
   renderResponseButtons();
   renderReviewFields();
@@ -566,6 +579,13 @@ function csvEscape(value) {
 
 function exportCsv() {
   persistCurrentFields();
+  if (!allTrialsComplete()) {
+    const remaining = Math.max(0, state.trialPlan.length - completedCount());
+    els.saveStatus.textContent = `${remaining} remaining`;
+    render();
+    return;
+  }
+
   const task = TASKS[state.taskKey];
   const exportedAt = new Date().toISOString();
   const randomization = state.randomization || {};

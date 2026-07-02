@@ -11,10 +11,13 @@
     <main class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Collaborator audio review</p>
-          <h1>PV-LJT Listening Tasks</h1>
+          <p class="eyebrow">Audio review</p>
+          <h1>PV-LJT</h1>
         </div>
-        <div class="status-pill" id="saveStatus">Ready</div>
+        <div class="header-status">
+          <strong id="progressText">0 / 0</strong>
+          <span class="status-pill" id="saveStatus">Ready</span>
+        </div>
       </header>
 
       <section class="setup-panel" aria-label="Review setup">
@@ -51,35 +54,18 @@
       </section>
 
       <section class="review-layout">
-        <aside class="trial-list" aria-label="Session">
-          <div class="list-head">
+        <section class="trial-panel" aria-label="Current trial">
+          <div class="session-strip" aria-label="Session summary">
             <strong id="taskLabel">Aural PV-LJT List A</strong>
-            <span id="progressText">0 / 0</span>
+            <span>Voice <b id="voiceLabel">Male</b></span>
+            <span>Phase <b id="sidePhaseLabel">Practice</b></span>
+            <span>Order <b id="orderStatus">Pending</b></span>
+            <span class="sr-only">Seed <b id="seedLabel">-</b></span>
           </div>
           <div class="progress-track" aria-hidden="true">
             <div id="progressBar" class="progress-bar"></div>
           </div>
-          <dl class="session-metadata">
-            <div>
-              <dt>Voice</dt>
-              <dd id="voiceLabel">Male</dd>
-            </div>
-            <div>
-              <dt>Phase</dt>
-              <dd id="sidePhaseLabel">Practice</dd>
-            </div>
-            <div>
-              <dt>Main Order</dt>
-              <dd id="orderStatus">Pending</dd>
-            </div>
-            <div>
-              <dt>Seed</dt>
-              <dd id="seedLabel">-</dd>
-            </div>
-          </dl>
-        </aside>
 
-        <section class="trial-panel" aria-label="Current trial">
           <div class="trial-meta">
             <span id="phaseLabel">Practice</span>
             <span id="trialCounter">Trial 1</span>
@@ -103,19 +89,43 @@
           </div>
 
           <section class="quality-panel" aria-label="Listening review">
-            <h3>Listening review</h3>
-            <div class="slider-stack">
-              <label class="slider-field">
-                <span>Ease of listening</span>
+            <div class="section-head">
+              <h3>Audio ratings</h3>
+              <span>Required</span>
+            </div>
+            <div class="rating-grid">
+              <label class="rating-card">
+                <span class="rating-title">Listening clarity</span>
+                <span class="rating-help">1 = hard to hear, 6 = very easy to hear</span>
                 <input id="easeSlider" type="range" min="1" max="6" step="1" value="3">
-                <output id="easeValue">Move slider to rate</output>
+                <div class="rating-scale">
+                  <span>Hard</span>
+                  <output id="easeValue">Not rated</output>
+                  <span>Easy</span>
+                </div>
               </label>
-              <label class="slider-field">
-                <span>Naturalness of English</span>
+              <label class="rating-card">
+                <span class="rating-title">English naturalness</span>
+                <span class="rating-help">1 = unnatural, 6 = natural English</span>
                 <input id="naturalnessSlider" type="range" min="1" max="6" step="1" value="3">
-                <output id="naturalnessValue">Move slider to rate</output>
+                <div class="rating-scale">
+                  <span>Unnatural</span>
+                  <output id="naturalnessValue">Not rated</output>
+                  <span>Natural</span>
+                </div>
               </label>
             </div>
+          </section>
+
+          <div class="actions">
+            <button id="nextButton" type="button">Next</button>
+            <button id="exportButton" class="secondary" type="button" disabled>Download CSV</button>
+            <button id="resetButton" class="danger" type="button">Clear Task</button>
+            <span id="exportStatus" class="action-status">Complete all trials to download CSV</span>
+          </div>
+
+          <details class="optional-panel">
+            <summary>Optional notes and audio issues</summary>
             <div class="quality-grid">
               <label><input type="checkbox" value="clear"> Clear</label>
               <label><input type="checkbox" value="wrong_text"> Wrong text</label>
@@ -128,13 +138,7 @@
               <span>Comment</span>
               <textarea id="commentBox" rows="3"></textarea>
             </label>
-          </section>
-
-          <div class="actions">
-            <button id="nextButton" type="button">Next</button>
-            <button id="exportButton" class="secondary" type="button">Export CSV</button>
-            <button id="resetButton" class="danger" type="button">Clear Task</button>
-          </div>
+          </details>
         </section>
       </section>
     </main>
