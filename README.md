@@ -33,6 +33,21 @@ The v6 audit is a pre-audio gate. It classifies the original 48 PV targets by
 construct fit, near-miss feasibility, polysemy risk, and audio stability before
 new LJT items are written or recorded.
 
+A reduced v6 candidate set has been created for review only:
+
+- `materials/aural_pv_ljt_items_v6_candidate.tsv`
+- `materials/aural_pv_ljt_list_A_v6_candidate.tsv`
+- `materials/aural_pv_ljt_list_B_v6_candidate.tsv`
+- `materials/ljt_v6_candidate_expert_review_form_v1.tsv`
+- `materials/ljt_v6_candidate_pre_audio_audit_v1.tsv`
+- `materials/ljt_v6_candidate_red_team_review_v1.tsv`
+- `materials/ljt_v6_excluded_targets_v1.tsv`
+- `materials/ljt_v6_candidate_design_summary_v1.md`
+
+The v6 candidate set is not currently served in the review app and should not
+be recorded yet. It contains a 31-PV review pool, a 30-PV balanced active list,
+and 17 excluded or replacement-needed targets.
+
 Practice trials are presented first in fixed order. Main trials are
 pseudo-randomized from reviewer ID, voice, and task, so the same reviewer gets
 the same order when resuming.
