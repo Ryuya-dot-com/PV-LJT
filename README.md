@@ -58,6 +58,9 @@ ratings:
 - ease of listening
 - naturalness of English
 
+The written script is hidden until the reviewer has answered the trial, then it
+is shown automatically for the listening-quality review.
+
 ## Result Workbook
 
 The download is an `.xlsx` workbook with separate sheets:

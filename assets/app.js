@@ -62,7 +62,6 @@ const state = {
 const els = {
   reviewerId: document.getElementById("reviewerId"),
   taskSelect: document.getElementById("taskSelect"),
-  showText: document.getElementById("showText"),
   taskLabel: document.getElementById("taskLabel"),
   progressText: document.getElementById("progressText"),
   progressBar: document.getElementById("progressBar"),
@@ -538,7 +537,7 @@ function render() {
   els.trialCounter.textContent = `Trial ${state.currentIndex + 1} of ${state.trialPlan.length}`;
   els.audioPlayer.src = audioPath(trial);
   els.stimulusText.textContent = trial.stimulus_text || "";
-  els.textReveal.hidden = !(els.showText.checked && saved.response);
+  els.textReveal.hidden = !saved.response;
 
   els.progressText.textContent = `${done} / ${state.trialPlan.length}`;
   els.progressBar.style.width = `${state.trialPlan.length ? (done / state.trialPlan.length) * 100 : 0}%`;
@@ -740,8 +739,12 @@ function buildExportData() {
     ["Responses", "ease_of_listening_1_6", "Listening clarity rating: 1 = hard to hear, 6 = very easy to hear."],
     ["Responses", "naturalness_of_english_1_6", "English naturalness rating: 1 = unnatural, 6 = natural English."],
     ["Responses", "quality_flags", "Optional semicolon-delimited audio issue flags."],
+    ["Responses", "comment", "Optional reviewer comment entered for the trial."],
+    ["Responses", "audio_file", "Repo-relative audio path used by the page."],
+    ["Responses", "stimulus_text", "Written script shown after the reviewer answers the trial."],
     ["Trial_Order", "randomized_phase", "fixed_practice or pseudo_randomized."],
     ["Trial_Order", "audio_file", "Repo-relative audio path used by the page."],
+    ["Trial_Order", "stimulus_text", "Written script for the displayed trial."],
   ];
 
   return {
@@ -1067,8 +1070,6 @@ function bindEvents() {
     state.taskKey = els.taskSelect.value;
     await loadTask();
   });
-
-  els.showText.addEventListener("change", render);
 
   els.audioPlayer.addEventListener("play", () => {
     const saved = currentResponse();
