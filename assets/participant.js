@@ -42,7 +42,14 @@ const TASKS = {
 };
 
 const APP_VERSION = "pv-ljt-simple-v1";
-const MAX_RUN_LENGTH = 3;
+const DEFAULTS = {
+  seed: "PV-LJT-20260703",
+  keymap: "counterbalanced",
+  maxAnswerRun: 2,
+  sameWordGap: 8,
+  postResponseMs: 700,
+  practiceFeedbackMs: 1400,
+};
 
 const app = document.getElementById("participantApp");
 
@@ -58,7 +65,9 @@ const state = {
   startedAt: "",
   completedAt: "",
   randomization: null,
+  responseMapping: null,
   active: null,
+  advanceTimer: null,
 };
 
 function escapeHtml(value) {
@@ -87,78 +96,190 @@ function hashString(text) {
   return hash >>> 0;
 }
 
-function seededUnit(seed) {
-  let x = hashString(seed) || 1;
-  x ^= x << 13;
-  x ^= x >>> 17;
-  x ^= x << 5;
-  return (x >>> 0) / 4294967296;
+function mulberry32(seed) {
+  return function rng() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
-function shuffleDeterministic(values, seed) {
-  const out = values.slice();
-  for (let i = out.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(seededUnit(`${seed}:${i}`) * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
+function shuffle(values, rng) {
+  const arr = values.slice();
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return out;
+  return arr;
 }
 
-function countRunViolations(trials, field) {
-  let violations = 0;
+function maxObservedRun(items, field) {
+  let maxRun = 0;
   let run = 0;
   let previous = "";
-  trials.forEach((trial) => {
-    const value = String(trial[field] || "");
+  items.forEach((item) => {
+    const value = String(item[field] || "");
     if (value && value === previous) {
       run += 1;
     } else {
       run = 1;
       previous = value;
     }
-    if (run > MAX_RUN_LENGTH) {
-      violations += run - MAX_RUN_LENGTH;
+    maxRun = Math.max(maxRun, run);
+  });
+  return maxRun;
+}
+
+function orderWord(item) {
+  return String(item.pv || item.matched_target_pv || item.stimulus_text || item.trial_id || item.item_id || "")
+    .trim()
+    .toLowerCase();
+}
+
+function countSameWordGapViolations(items, gap) {
+  let violations = 0;
+  const lastSeen = new Map();
+  items.forEach((item, index) => {
+    const word = orderWord(item);
+    if (!word) {
+      return;
     }
+    if (lastSeen.has(word) && index - lastSeen.get(word) <= gap) {
+      violations += 1;
+    }
+    lastSeen.set(word, index);
   });
   return violations;
 }
 
-function countAdjacentMatches(trials, field) {
-  let matches = 0;
-  for (let i = 1; i < trials.length; i += 1) {
-    const current = String(trials[i][field] || "");
-    const previous = String(trials[i - 1][field] || "");
-    if (current && current === previous) {
-      matches += 1;
+function randomAnswerPattern(countsByAnswer, rng, maxRun) {
+  const counts = { ...countsByAnswer };
+  const answers = Object.keys(counts);
+  const total = answers.reduce((sum, answer) => sum + counts[answer], 0);
+  const pattern = [];
+  let last = "";
+  let run = 0;
+
+  for (let slot = 0; slot < total; slot += 1) {
+    const choices = answers.filter((answer) => {
+      if (counts[answer] <= 0) {
+        return false;
+      }
+      return !(answer === last && run >= maxRun);
+    });
+    if (!choices.length) {
+      return null;
+    }
+
+    const totalWeight = choices.reduce((sum, answer) => sum + counts[answer], 0);
+    let pick = rng() * totalWeight;
+    let chosen = choices[choices.length - 1];
+    for (const answer of choices) {
+      pick -= counts[answer];
+      if (pick <= 0) {
+        chosen = answer;
+        break;
+      }
+    }
+
+    pattern.push(chosen);
+    counts[chosen] -= 1;
+    if (chosen === last) {
+      run += 1;
+    } else {
+      last = chosen;
+      run = 1;
     }
   }
-  return matches;
+
+  return pattern;
 }
 
-function randomizationScore(trials, task) {
-  const answerRuns = countRunViolations(trials, task.balanceField);
-  const typeRuns = task.kind === "audio_decision" ? countRunViolations(trials, "item_type") : 0;
-  const pvAdjacency = countAdjacentMatches(trials, "pv") + countAdjacentMatches(trials, "matched_target_pv");
-  return (answerRuns + typeRuns) * 1000 + pvAdjacency;
+function diagnoseOrder(items, task, maxRun, gap, attempts) {
+  const observedRun = maxObservedRun(items, task.balanceField);
+  const sameWordGapViolations = countSameWordGapViolations(items, gap);
+  const score = Math.max(0, observedRun - maxRun) * 100 + sameWordGapViolations * 10;
+  return {
+    maxObservedRun: observedRun,
+    sameWordGapViolations,
+    attempts,
+    score,
+  };
 }
 
-function pseudoRandomizeMainTrials(mainTrials, task, seed) {
-  if (mainTrials.length < 2) {
-    return { trials: mainTrials.slice(), attempt: 0, constraintsMet: true, score: 0 };
+function buildConstrainedOrder(items, task, seed, maxRun, requestedGap) {
+  if (items.length < 2) {
+    return {
+      items: items.slice(),
+      diagnostics: {
+        maxObservedRun: items.length,
+        sameWordGapViolations: 0,
+        attempts: 0,
+        score: 0,
+        sameWordGapRequested: requestedGap,
+        sameWordGapUsed: requestedGap,
+        status: "trivial_order",
+      },
+    };
   }
 
+  const rng = mulberry32(hashString(seed));
+  const grouped = new Map();
+  items.forEach((item, index) => {
+    const answer = String(item[task.balanceField] || "");
+    if (!grouped.has(answer)) {
+      grouped.set(answer, []);
+    }
+    grouped.get(answer).push({ ...item, order_uid: `${item.item_id || item.trial_id || "item"}_${index}` });
+  });
+
+  const countsByAnswer = Object.fromEntries([...grouped.entries()].map(([answer, group]) => [answer, group.length]));
   let best = null;
-  for (let attempt = 0; attempt < 400; attempt += 1) {
-    const candidate = shuffleDeterministic(mainTrials, `${seed}:attempt:${attempt}`);
-    const score = randomizationScore(candidate, task);
-    const result = { trials: candidate, attempt, constraintsMet: score === 0, score };
-    if (!best || result.score < best.score) {
-      best = result;
-    }
-    if (result.constraintsMet) {
-      return result;
+  for (let gap = requestedGap; gap >= 0; gap -= 1) {
+    for (let attempt = 1; attempt <= 3000; attempt += 1) {
+      const pattern = randomAnswerPattern(countsByAnswer, rng, maxRun);
+      if (!pattern) {
+        continue;
+      }
+
+      const shuffledByAnswer = new Map([...grouped.entries()].map(([answer, group]) => [answer, shuffle(group, rng)]));
+      const cursor = Object.fromEntries([...grouped.keys()].map((answer) => [answer, 0]));
+      const candidate = pattern.map((answer) => {
+        const item = shuffledByAnswer.get(answer)[cursor[answer]];
+        cursor[answer] += 1;
+        return item;
+      });
+      const diagnostics = diagnoseOrder(candidate, task, maxRun, gap, attempt);
+      if (diagnostics.maxObservedRun <= maxRun && diagnostics.sameWordGapViolations === 0) {
+        return {
+          items: candidate,
+          diagnostics: {
+            ...diagnostics,
+            sameWordGapRequested: requestedGap,
+            sameWordGapUsed: gap,
+            status: gap === requestedGap ? "requested_constraints_satisfied" : "gap_relaxed",
+          },
+        };
+      }
+      if (!best || diagnostics.score < best.diagnostics.score) {
+        best = { items: candidate, diagnostics: { ...diagnostics, sameWordGapUsed: gap } };
+      }
     }
   }
+
+  if (!best) {
+    const fallback = shuffle(items, rng);
+    best = {
+      items: fallback,
+      diagnostics: {
+        ...diagnoseOrder(fallback, task, maxRun, 0, 0),
+        sameWordGapUsed: 0,
+      },
+    };
+  }
+  best.diagnostics.sameWordGapRequested = requestedGap;
+  best.diagnostics.status = "fallback_best_available";
   return best;
 }
 
@@ -174,7 +295,12 @@ function withPlanMetadata(trials, phase, startOrder) {
 }
 
 function normalizeParticipantId(value) {
-  return String(value || "").trim().replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40);
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_")
+    .replace(/[^a-z0-9_-]/g, "")
+    .slice(0, 40);
 }
 
 function createParticipantId() {
@@ -183,7 +309,21 @@ function createParticipantId() {
 
 function randomizationSeed() {
   const id = normalizeParticipantId(state.participantId) || "anonymous";
-  return `${APP_VERSION}:${state.taskKey}:${state.voice}:${id}`;
+  return `${DEFAULTS.seed}|${id}|${state.taskKey}|${state.voice}|${APP_VERSION}`;
+}
+
+function makeResponseMapping(task, participantId, seed) {
+  const [left, right] = task.responses.map((option) => option.value);
+  let fLeft = true;
+  if (DEFAULTS.keymap === "counterbalanced") {
+    fLeft = hashString(`${seed}|${participantId}|keymap`) % 2 === 0;
+  }
+  const mapping = fLeft
+    ? { F: left, J: right, keymapId: `F_${left}_J_${right}` }
+    : { F: right, J: left, keymapId: `F_${right}_J_${left}` };
+  mapping[left] = fLeft ? "F" : "J";
+  mapping[right] = fLeft ? "J" : "F";
+  return mapping;
 }
 
 function buildTrialPlan(rawTrials) {
@@ -191,14 +331,13 @@ function buildTrialPlan(rawTrials) {
   const practice = rawTrials.filter((trial) => trial.phase === "practice");
   const main = rawTrials.filter((trial) => trial.phase !== "practice");
   const seed = randomizationSeed();
-  const randomized = pseudoRandomizeMainTrials(main, task, seed);
+  const randomized = buildConstrainedOrder(main, task, seed, DEFAULTS.maxAnswerRun, DEFAULTS.sameWordGap);
   const practicePlan = withPlanMetadata(practice, "practice", 1);
-  const mainPlan = withPlanMetadata(randomized.trials, "main", practicePlan.length + 1);
+  const mainPlan = withPlanMetadata(randomized.items, "main", practicePlan.length + 1);
   state.randomization = {
     seed,
-    attempt: randomized.attempt,
-    constraintsMet: randomized.constraintsMet,
-    score: randomized.score,
+    ...randomized.diagnostics,
+    maxAnswerRun: DEFAULTS.maxAnswerRun,
     nPractice: practicePlan.length,
     nMain: mainPlan.length,
   };
@@ -286,6 +425,7 @@ async function startSession() {
   state.currentIndex = 0;
   state.startedAt = new Date().toISOString();
   state.completedAt = "";
+  state.advanceTimer = null;
 
   try {
     const response = await fetch(TASKS[state.taskKey].path, { cache: "no-store" });
@@ -293,6 +433,7 @@ async function startSession() {
       throw new Error(`Could not load ${TASKS[state.taskKey].path}`);
     }
     state.rawTrials = parseTsv(await response.text());
+    state.responseMapping = makeResponseMapping(TASKS[state.taskKey], state.participantId, DEFAULTS.seed);
     state.trialPlan = buildTrialPlan(state.rawTrials);
     renderInstructions();
   } catch (err) {
@@ -324,8 +465,11 @@ function renderInstructions() {
         Practice trials come first and show feedback. The main task begins after practice.
       </div>
       <div class="notice muted">
-        Audio starts automatically when each trial opens. If it does not start, press play.
+        Audio starts automatically when each trial opens. Use the F/J keys or the matching buttons after the audio ends.
       </div>
+      <table class="summary-table">
+        ${responseKeyRowsMarkup()}
+      </table>
       <div class="actions">
         <button id="continueButton" class="btn" type="button">Start practice</button>
         <button id="backButton" class="btn ghost" type="button">Back</button>
@@ -347,7 +491,35 @@ function phaseLabel(trial) {
   return trial.phase === "practice" ? "Practice" : "Main";
 }
 
+function responseOption(value) {
+  return currentTask().responses.find((option) => option.value === value) || currentTask().responses[0];
+}
+
+function responseKeyRowsMarkup() {
+  return ["F", "J"].map((key) => {
+    const value = state.responseMapping?.[key] || currentTask().responses[key === "F" ? 0 : 1].value;
+    const option = responseOption(value);
+    return `<tr><th>${escapeHtml(key)}</th><td>${escapeHtml(option.label)}</td></tr>`;
+  }).join("");
+}
+
+function responseButtonsMarkup() {
+  return ["F", "J"].map((key) => {
+    const value = state.responseMapping?.[key] || currentTask().responses[key === "F" ? 0 : 1].value;
+    const option = responseOption(value);
+    return `
+      <button class="btn ${option.className}" type="button" data-response="${escapeHtml(value)}" disabled>
+        <span class="key">${escapeHtml(key)}</span>${escapeHtml(option.label)}
+      </button>
+    `;
+  }).join("");
+}
+
 function renderTrial() {
+  if (state.advanceTimer) {
+    window.clearTimeout(state.advanceTimer);
+    state.advanceTimer = null;
+  }
   const trial = currentTrial();
   const task = currentTask();
   if (!trial) {
@@ -393,14 +565,9 @@ function renderTrial() {
           </div>
         </div>
         <div id="responses" class="response-grid">
-          ${task.responses.map((option) => (
-            `<button class="btn ${option.className}" type="button" data-response="${option.value}" disabled>${escapeHtml(option.label)}</button>`
-          )).join("")}
+          ${responseButtonsMarkup()}
         </div>
         <div id="feedback" class="feedback"></div>
-        <div class="actions">
-          <button id="nextButton" class="btn" type="button" disabled>${state.currentIndex === total - 1 ? "Finish" : "Next"}</button>
-        </div>
       </div>
     </section>`;
 
@@ -417,9 +584,8 @@ function renderTrial() {
     setAudioUi("blocked", "Audio could not be played. Try reloading the page.");
   });
   document.querySelectorAll("[data-response]").forEach((button) => {
-    button.addEventListener("click", () => commitResponse(button.dataset.response));
+    button.addEventListener("click", () => commitResponse(button.dataset.response, "button"));
   });
-  document.getElementById("nextButton").addEventListener("click", nextTrial);
   document.getElementById("replayButton").addEventListener("click", replayAudio);
   startAudio(audio);
 }
@@ -487,7 +653,7 @@ function enableResponses() {
   });
 }
 
-function commitResponse(responseValue) {
+function commitResponse(responseValue, responseModality = "button") {
   if (!state.active || state.active.response) {
     return;
   }
@@ -498,6 +664,7 @@ function commitResponse(responseValue) {
   const now = performance.now();
   const rt = state.active.audioEndedPerf ? Math.round(now - state.active.audioEndedPerf) : "";
   const correct = responseValue === expected;
+  const responseKey = state.responseMapping?.[responseValue] || "";
 
   state.active.response = responseValue;
   document.querySelectorAll("[data-response]").forEach((button) => {
@@ -527,6 +694,8 @@ function commitResponse(responseValue) {
     pv: trial.pv || trial.matched_target_pv || "",
     item_type: trial.item_type || trial.condition || "",
     response: responseValue,
+    response_key: responseKey,
+    response_modality: responseModality,
     response_correct: String(correct),
     trial_started_at: state.active.trialStartedAt,
     audio_started_at: state.active.audioStartedAt,
@@ -542,7 +711,10 @@ function commitResponse(responseValue) {
     feedback.className = `feedback ${correct ? "good" : "bad"}`;
   }
   document.getElementById("status").textContent = "Response recorded.";
-  document.getElementById("nextButton").disabled = false;
+  state.advanceTimer = window.setTimeout(
+    nextTrial,
+    trial.phase === "practice" ? DEFAULTS.practiceFeedbackMs : DEFAULTS.postResponseMs
+  );
 }
 
 function nextTrial() {
@@ -611,6 +783,9 @@ function renderPracticeComplete() {
       <div class="notice muted">
         Audio will continue to start automatically. Answer after each audio item finishes.
       </div>
+      <table class="summary-table">
+        ${responseKeyRowsMarkup()}
+      </table>
       <div class="actions">
         <button id="startMainButton" class="btn" type="button">Start main task</button>
       </div>
@@ -645,10 +820,15 @@ function renderResults() {
   document.getElementById("downloadCsv").addEventListener("click", downloadCsv);
   document.getElementById("downloadJson").addEventListener("click", downloadJson);
   document.getElementById("newSession").addEventListener("click", () => {
+    if (state.advanceTimer) {
+      window.clearTimeout(state.advanceTimer);
+      state.advanceTimer = null;
+    }
     state.currentIndex = 0;
     state.responses = [];
     state.startedAt = "";
     state.completedAt = "";
+    state.responseMapping = null;
     renderSetup();
   });
   setTimeout(downloadCsv, 300);
@@ -671,9 +851,18 @@ function resultRows() {
     raw_score: summary.correct,
     n_main_trials: summary.total,
     accuracy: summary.total ? summary.accuracy.toFixed(4) : "",
-    randomization_attempt: state.randomization?.attempt ?? "",
-    randomization_constraints_met: state.randomization?.constraintsMet ?? "",
+    randomization_attempt: state.randomization?.attempts ?? "",
+    randomization_constraints_met: state.randomization
+      ? String(state.randomization.maxObservedRun <= state.randomization.maxAnswerRun && state.randomization.sameWordGapViolations === 0)
+      : "",
     randomization_score: state.randomization?.score ?? "",
+    keymap_id: state.responseMapping?.keymapId ?? "",
+    order_status: state.randomization?.status ?? "",
+    order_max_answer_run: state.randomization?.maxObservedRun ?? "",
+    order_same_word_gap_requested: state.randomization?.sameWordGapRequested ?? "",
+    order_same_word_gap_used: state.randomization?.sameWordGapUsed ?? "",
+    order_same_word_gap_violations: state.randomization?.sameWordGapViolations ?? "",
+    order_attempts: state.randomization?.attempts ?? "",
     app_version: APP_VERSION,
   }));
 }
@@ -696,6 +885,7 @@ function downloadJson() {
     voice: state.voice,
     started_at: state.startedAt,
     completed_at: state.completedAt,
+    response_mapping: state.responseMapping,
     randomization: state.randomization,
     summary: scoreSummary(),
     rows: resultRows(),
@@ -719,5 +909,34 @@ function downloadText(fileName, text, mime) {
   link.click();
   URL.revokeObjectURL(url);
 }
+
+function responseIsOpen() {
+  if (!state.active || state.active.response) {
+    return false;
+  }
+  return [...document.querySelectorAll("[data-response]")].some((button) => !button.disabled);
+}
+
+function handleKeydown(event) {
+  const key = event.key.toLowerCase();
+  if (key === "f" || key === "j") {
+    if (!responseIsOpen()) {
+      return;
+    }
+    event.preventDefault();
+    const response = state.responseMapping?.[key.toUpperCase()];
+    if (response) {
+      commitResponse(response, "keyboard");
+    }
+  } else if (key === " " || key === "enter") {
+    const replay = document.getElementById("replayButton");
+    if (replay && !replay.disabled && !state.active?.response) {
+      event.preventDefault();
+      replayAudio();
+    }
+  }
+}
+
+window.addEventListener("keydown", handleKeydown);
 
 renderSetup();

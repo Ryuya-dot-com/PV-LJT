@@ -11,7 +11,9 @@ It removes listening-review ratings, comments, transcript display, and email
 collection. Participants enter only an ID, voice, and task, then download CSV
 or JSON results at completion. Practice trials are shown before the main task,
 and each trial attempts to start audio automatically. The participant page uses
-a custom audio status panel instead of browser-native audio controls.
+a custom audio status panel instead of browser-native audio controls. F/J
+response keys are counterbalanced from the normalized participant ID, and main
+trials use LJT-S-style seeded constrained randomization.
 
 ## Review Tasks
 
