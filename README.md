@@ -1,6 +1,6 @@
 # PV-LJT Audio Review
 
-Static review materials for the pilot phrasal-verb listening tasks.
+Static review materials for the phrasal-verb listening tasks.
 
 The GitHub Pages site lets reviewers complete the listening tasks with either
 the male or female ElevenLabs voice and export their responses as an Excel
@@ -8,9 +8,20 @@ workbook after every trial is complete.
 
 ## Review Tasks
 
-- Aural PV-LJT List A
-- Aural PV-LJT List B
+- Aural PV-LJT Production List A
+- Aural PV-LJT Production List B
 - Audio phrasal verb decision
+
+The LJT pages use the v5 production stimuli:
+
+- `materials/aural_pv_ljt_items_v5_production.tsv`
+- `materials/pilot_trial_file_ljt_list_A_v5_production.tsv`
+- `materials/pilot_trial_file_ljt_list_B_v5_production.tsv`
+
+The v5 LJT set replaces the earlier v4 pre-audio candidate items. It removes
+overt contrast cues such as `but`, `although`, `never`, `no`, and `nothing`,
+matches word counts within each acceptable/unacceptable PV pair, and avoids the
+explicit contradiction templates used in v4.
 
 Practice trials are presented first in fixed order. Main trials are
 pseudo-randomized from reviewer ID, voice, and task, so the same reviewer gets
@@ -35,7 +46,7 @@ The download is an `.xlsx` workbook with separate sheets:
 The download button remains locked until all trials in the selected task are
 complete.
 
-The public site is intended for collaborator review and pilot dry-runs, not for
+The public site is intended for collaborator review and pilot dry-runs before
 final learner data collection. The repository includes keyed materials for
 review and audit.
 

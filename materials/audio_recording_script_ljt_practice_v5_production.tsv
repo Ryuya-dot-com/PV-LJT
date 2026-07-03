@@ -1,0 +1,7 @@
+recording_id	audio_file_name	task	practice_id	item_type	text_to_record	correct_response	recording_notes
+rec_practice_ljt_v5_001	rec_practice_ljt_v5_001.wav	aural_pv_ljt_practice	practice_ljt_v5_001	acceptable	Mina woke up before the alarm.	acceptable	Practice item; record with the same voice and pacing as v5 LJT items.
+rec_practice_ljt_v5_002	rec_practice_ljt_v5_002.wav	aural_pv_ljt_practice	practice_ljt_v5_002	unacceptable	Mina woke up before the pencil.	unacceptable	Practice item; record with the same voice and pacing as v5 LJT items.
+rec_practice_ljt_v5_003	rec_practice_ljt_v5_003.wav	aural_pv_ljt_practice	practice_ljt_v5_003	acceptable	Please turn off the lamp.	acceptable	Practice item; record with the same voice and pacing as v5 LJT items.
+rec_practice_ljt_v5_004	rec_practice_ljt_v5_004.wav	aural_pv_ljt_practice	practice_ljt_v5_004	unacceptable	Please turn off the sandwich.	unacceptable	Practice item; record with the same voice and pacing as v5 LJT items.
+rec_practice_ljt_v5_005	rec_practice_ljt_v5_005.wav	aural_pv_ljt_practice	practice_ljt_v5_005	acceptable	He gave up smoking last year.	acceptable	Practice item; record with the same voice and pacing as v5 LJT items.
+rec_practice_ljt_v5_006	rec_practice_ljt_v5_006.wav	aural_pv_ljt_practice	practice_ljt_v5_006	unacceptable	He gave up rainfall last year.	unacceptable	Practice item; record with the same voice and pacing as v5 LJT items.

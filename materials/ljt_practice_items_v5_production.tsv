@@ -1,0 +1,7 @@
+practice_id	pv	condition	expected_response	target_form	sentence_text	intended_sense	mismatch_type	notes
+practice_ljt_v5_001	wake up	acceptable	acceptable	woke up	Mina woke up before the alarm.	stop sleeping	none	v5 practice only; no overt contrast cue
+practice_ljt_v5_002	wake up	unacceptable	unacceptable	woke up	Mina woke up before the pencil.	stop sleeping	context_selection_mismatch	v5 practice only; no overt contrast cue
+practice_ljt_v5_003	turn off	acceptable	acceptable	turn off	Please turn off the lamp.	stop a device operating	none	v5 practice only; no overt contrast cue
+practice_ljt_v5_004	turn off	unacceptable	unacceptable	turn off	Please turn off the sandwich.	stop a device operating	object_selection_mismatch	v5 practice only; no overt contrast cue
+practice_ljt_v5_005	give up	acceptable	acceptable	gave up	He gave up smoking last year.	stop doing something	none	v5 practice only; no overt contrast cue
+practice_ljt_v5_006	give up	unacceptable	unacceptable	gave up	He gave up rainfall last year.	stop doing something	object_selection_mismatch	v5 practice only; no overt contrast cue

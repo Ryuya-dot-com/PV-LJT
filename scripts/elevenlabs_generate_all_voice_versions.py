@@ -14,6 +14,16 @@ GENERATOR = ROOT / "scripts" / "elevenlabs_generate_audio.py"
 
 TASKS = [
     {
+        "label": "ljt_v5",
+        "recording_script": ROOT / "materials" / "audio_recording_script_ljt_v5_production.tsv",
+    },
+    {
+        "label": "ljt_practice_v5",
+        "recording_script": ROOT
+        / "materials"
+        / "audio_recording_script_ljt_practice_v5_production.tsv",
+    },
+    {
         "label": "ljt_v4",
         "recording_script": ROOT / "materials" / "audio_recording_script_ljt_v4_pre_audio.tsv",
     },

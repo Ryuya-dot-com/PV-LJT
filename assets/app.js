@@ -1,8 +1,10 @@
 const TASKS = {
   ljt_a: {
-    label: "Aural PV-LJT List A",
-    path: "materials/pilot_trial_file_ljt_list_A_v1.tsv",
+    label: "Aural PV-LJT Production List A",
+    path: "materials/pilot_trial_file_ljt_list_A_v5_production.tsv",
     kind: "ljt",
+    audioFolder: "ljt_v5",
+    practiceAudioFolder: "ljt_practice_v5",
     promptTitle: "Acceptable or unacceptable?",
     promptCopy: "Judge the sentence meaning from the audio.",
     responseField: "expected_response",
@@ -13,9 +15,11 @@ const TASKS = {
     ],
   },
   ljt_b: {
-    label: "Aural PV-LJT List B",
-    path: "materials/pilot_trial_file_ljt_list_B_v1.tsv",
+    label: "Aural PV-LJT Production List B",
+    path: "materials/pilot_trial_file_ljt_list_B_v5_production.tsv",
     kind: "ljt",
+    audioFolder: "ljt_v5",
+    practiceAudioFolder: "ljt_practice_v5",
     promptTitle: "Acceptable or unacceptable?",
     promptCopy: "Judge the sentence meaning from the audio.",
     responseField: "expected_response",
@@ -40,7 +44,7 @@ const TASKS = {
   },
 };
 
-const STORAGE_VERSION = "v2";
+const STORAGE_VERSION = "v3";
 const MAX_RUN_LENGTH = 3;
 
 const state = {
@@ -326,12 +330,14 @@ function audioPath(trial) {
   const name = audioName(trial.audio_file_name);
   const voice = state.voice;
   if (trial.phase === "practice") {
-    return `audio/raw/elevenlabs/${voice}/practice_v1/${name}`;
+    const practiceFolder = TASKS[state.taskKey].practiceAudioFolder || "practice_v1";
+    return `audio/raw/elevenlabs/${voice}/${practiceFolder}/${name}`;
   }
   if (TASKS[state.taskKey].kind === "audio_decision") {
     return `audio/raw/elevenlabs/${voice}/audio_decision_v2/${name}`;
   }
-  return `audio/raw/elevenlabs/${voice}/ljt_v4/${name}`;
+  const audioFolder = TASKS[state.taskKey].audioFolder || "ljt_v4";
+  return `audio/raw/elevenlabs/${voice}/${audioFolder}/${name}`;
 }
 
 function trialId(trial) {

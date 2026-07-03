@@ -1,0 +1,97 @@
+ljt_item_id	pv_id	pv	condition	expected_response	sentence_text	target_form	intended_sense	mismatch_type	word_count	has_overt_cue	naturalness_1_4	sense_fit_or_mismatch_1_4	target_sense_clear_1_4	audio_suitability_1_4	reviewer_comments	decision_keep_revise_drop
+ljt_001a	pv_001	break off	acceptable	acceptable	The committee broke off the negotiations.	broke off	end talks or a relationship	none	6	false						
+ljt_001b	pv_001	break off	unacceptable	unacceptable	The committee broke off the agenda.	broke off	end talks or a relationship	selectional_semantic_mismatch	6	false						
+ljt_002a	pv_002	hand over	acceptable	acceptable	The officer handed over the documents.	handed over	give control or possession to someone	none	6	false						
+ljt_002b	pv_002	hand over	unacceptable	unacceptable	The officer handed over the deadline.	handed over	give control or possession to someone	selectional_semantic_mismatch	6	false						
+ljt_003a	pv_003	give out	acceptable	acceptable	The old engine gave out suddenly.	gave out	stop working properly	none	6	false						
+ljt_003b	pv_003	give out	unacceptable	unacceptable	The old answer gave out suddenly.	gave out	stop working properly	subject_selection_mismatch	6	false						
+ljt_004a	pv_004	put in	acceptable	acceptable	She put in steady effort yesterday.	put in	devote time or effort	none	6	false						
+ljt_004b	pv_004	put in	unacceptable	unacceptable	She put in steady evidence yesterday.	put in	devote time or effort	object_selection_mismatch	6	false						
+ljt_005a	pv_005	take in	acceptable	acceptable	The lecture was hard to take in.	take in	understand fully	none	7	false						
+ljt_005b	pv_005	take in	unacceptable	unacceptable	The doorway was hard to take in.	take in	understand fully	object_selection_mismatch	7	false						
+ljt_006a	pv_006	sit back	acceptable	acceptable	The mayor sat back during the crisis.	sat back	take no action	none	7	false						
+ljt_006b	pv_006	sit back	unacceptable	unacceptable	The mayor sat back during the sprint.	sat back	take no action	context_selection_mismatch	7	false						
+ljt_007a	pv_007	hold back	acceptable	acceptable	Poor training held back the players.	held back	prevent progress or potential	none	6	false						
+ljt_007b	pv_007	hold back	unacceptable	unacceptable	Extra support held back the players.	held back	prevent progress or potential	cause_selection_mismatch	6	false						
+ljt_008a	pv_008	move up	acceptable	acceptable	She moved up to senior manager.	moved up	advance to a higher position	none	6	false						
+ljt_008b	pv_008	move up	unacceptable	unacceptable	She moved up to junior assistant.	moved up	advance to a higher position	hierarchy_semantic_mismatch	6	false						
+ljt_009a	pv_009	get on	acceptable	acceptable	The tourists got on the bus.	got on	board a vehicle	none	6	false						
+ljt_009b	pv_009	get on	unacceptable	unacceptable	The tourists got on the lecture.	got on	board a vehicle	object_selection_mismatch	6	false						
+ljt_010a	pv_010	come along	acceptable	acceptable	A rare chance came along today.	came along	appear or arrive	none	6	false						
+ljt_010b	pv_010	come along	unacceptable	unacceptable	A rare schedule came along today.	came along	appear or arrive	subject_selection_mismatch	6	false						
+ljt_011a	pv_011	stand out	acceptable	acceptable	Her analysis stood out among reports.	stood out	be noticeable or impressive	none	6	false						
+ljt_011b	pv_011	stand out	unacceptable	unacceptable	Her analysis stood out among deadlines.	stood out	be noticeable or impressive	comparison_set_mismatch	6	false						
+ljt_012a	pv_012	pull back	acceptable	acceptable	The company pulled back from investment.	pulled back	withdraw from an activity	none	6	false						
+ljt_012b	pv_012	pull back	unacceptable	unacceptable	The company pulled back from approval.	pulled back	withdraw from an activity	object_selection_mismatch	6	false						
+ljt_013a	pv_013	run out	acceptable	acceptable	The office ran out of paper.	ran out	use all of something	none	6	false						
+ljt_013b	pv_013	run out	unacceptable	unacceptable	The office ran out of agenda.	ran out	use all of something	object_selection_mismatch	6	false						
+ljt_014a	pv_014	turn over	acceptable	acceptable	The officer turned over the files.	turned over	give control or possession to an authority	none	6	false						
+ljt_014b	pv_014	turn over	unacceptable	unacceptable	The officer turned over the deadline.	turned over	give control or possession to an authority	object_selection_mismatch	6	false						
+ljt_015a	pv_015	put on	acceptable	acceptable	The school put on a concert.	put on	present or stage an event	none	6	false						
+ljt_015b	pv_015	put on	unacceptable	unacceptable	The school put on a textbook.	put on	present or stage an event	event_selection_mismatch	6	false						
+ljt_016a	pv_016	take back	acceptable	acceptable	The party took back the council.	took back	regain control or possession	none	6	false						
+ljt_016b	pv_016	take back	unacceptable	unacceptable	The party took back the outcome.	took back	regain control or possession	object_selection_mismatch	6	false						
+ljt_017a	pv_017	make out	acceptable	acceptable	I could barely make out the sign outside.	make out	see or hear with difficulty	none	8	false						
+ljt_017b	pv_017	make out	unacceptable	unacceptable	I could barely make out the flavor outside.	make out	see or hear with difficulty	object_selection_mismatch	8	false						
+ljt_018a	pv_018	pay off	acceptable	acceptable	The hard work paid off eventually.	paid off	become successful or beneficial	none	6	false						
+ljt_018b	pv_018	pay off	unacceptable	unacceptable	The hard weather paid off eventually.	paid off	become successful or beneficial	subject_selection_mismatch	6	false						
+ljt_019a	pv_019	get off	acceptable	acceptable	The children got off the train.	got off	leave a vehicle	none	6	false						
+ljt_019b	pv_019	get off	unacceptable	unacceptable	The children got off the deadline.	got off	leave a vehicle	object_selection_mismatch	6	false						
+ljt_020a	pv_020	turn up	acceptable	acceptable	He turned up at the meeting.	turned up	arrive or appear	none	6	false						
+ljt_020b	pv_020	turn up	unacceptable	unacceptable	He turned up at the method.	turned up	arrive or appear	location_selection_mismatch	6	false						
+ljt_021a	pv_021	get down	acceptable	acceptable	The soldiers got down behind the wall.	got down	lower the body	none	7	false						
+ljt_021b	pv_021	get down	unacceptable	unacceptable	The soldiers got down behind the idea.	got down	lower the body	location_selection_mismatch	7	false						
+ljt_022a	pv_022	cut off	acceptable	acceptable	The host cut off the speaker.	cut off	interrupt someone	none	6	false						
+ljt_022b	pv_022	cut off	unacceptable	unacceptable	The host cut off the policy.	cut off	interrupt someone	object_selection_mismatch	6	false						
+ljt_023a	pv_023	bring in	acceptable	acceptable	The firm brought in an expert.	brought in	ask someone to do a job or task	none	6	false						
+ljt_023b	pv_023	bring in	unacceptable	unacceptable	The firm brought in a deadline.	brought in	ask someone to do a job or task	object_selection_mismatch	6	false						
+ljt_024a	pv_024	put out	acceptable	acceptable	Police put out a warning.	put out	make information public	none	5	false						
+ljt_024b	pv_024	put out	unacceptable	unacceptable	Police put out a wallet.	put out	make information public	object_selection_mismatch	5	false						
+ljt_025a	pv_025	clean up	acceptable	acceptable	The editor cleaned up the insults.	cleaned up	remove unacceptable content or behavior	none	6	false						
+ljt_025b	pv_025	clean up	unacceptable	unacceptable	The editor cleaned up the deadline.	cleaned up	remove unacceptable content or behavior	object_selection_mismatch	6	false						
+ljt_026a	pv_026	set out	acceptable	acceptable	The report set out the rules.	set out	present or explain clearly	none	6	false						
+ljt_026b	pv_026	set out	unacceptable	unacceptable	The report set out the pencils.	set out	present or explain clearly	object_selection_mismatch	6	false						
+ljt_027a	pv_027	break down	acceptable	acceptable	The teacher broke down the problem.	broke down	divide into smaller parts	none	6	false						
+ljt_027b	pv_027	break down	unacceptable	unacceptable	The teacher broke down the applause.	broke down	divide into smaller parts	object_selection_mismatch	6	false						
+ljt_028a	pv_028	reach out	acceptable	acceptable	The manager reached out to clients.	reached out	contact someone or offer help	none	6	false						
+ljt_028b	pv_028	reach out	unacceptable	unacceptable	The manager reached out to deadlines.	reached out	contact someone or offer help	recipient_selection_mismatch	6	false						
+ljt_029a	pv_029	keep up	acceptable	acceptable	She kept up the good work.	kept up	make something continue	none	6	false						
+ljt_029b	pv_029	keep up	unacceptable	unacceptable	She kept up the heavy claim.	kept up	make something continue	object_selection_mismatch	6	false						
+ljt_030a	pv_030	put up	acceptable	acceptable	They put up posters downtown.	put up	display or attach something	none	5	false						
+ljt_030b	pv_030	put up	unacceptable	unacceptable	They put up music downtown.	put up	display or attach something	object_selection_mismatch	5	false						
+ljt_031a	pv_031	turn around	acceptable	acceptable	The coach turned around the team.	turned around	make something successful after problems	none	6	false						
+ljt_031b	pv_031	turn around	unacceptable	unacceptable	The coach turned around the deadline.	turned around	make something successful after problems	object_selection_mismatch	6	false						
+ljt_032a	pv_032	back up	acceptable	acceptable	The data backed up the claim.	backed up	support with evidence	none	6	false						
+ljt_032b	pv_032	back up	unacceptable	unacceptable	The data backed up the deadline.	backed up	support with evidence	object_selection_mismatch	6	false						
+ljt_033a	pv_033	look out	acceptable	acceptable	She looked out at the garden.	looked out	look outside	none	6	false						
+ljt_033b	pv_033	look out	unacceptable	unacceptable	She looked out at the deadline.	looked out	look outside	object_selection_mismatch	6	false						
+ljt_034a	pv_034	take out	acceptable	acceptable	He took out a loan yesterday.	took out	obtain an official service or document	none	6	false						
+ljt_034b	pv_034	take out	unacceptable	unacceptable	He took out a deadline yesterday.	took out	obtain an official service or document	object_selection_mismatch	6	false						
+ljt_035a	pv_035	look back	acceptable	acceptable	They looked back on the decision.	looked back	think about a past event	none	6	false						
+ljt_035b	pv_035	look back	unacceptable	unacceptable	They looked back on the ceiling.	looked back	think about a past event	object_selection_mismatch	6	false						
+ljt_036a	pv_036	go up	acceptable	acceptable	The rent went up sharply.	went up	increase	none	5	false						
+ljt_036b	pv_036	go up	unacceptable	unacceptable	The advice went up sharply.	went up	increase	subject_selection_mismatch	5	false						
+ljt_037a	pv_037	go down	acceptable	acceptable	The rent went down sharply.	went down	decrease	none	5	false						
+ljt_037b	pv_037	go down	unacceptable	unacceptable	The advice went down sharply.	went down	decrease	subject_selection_mismatch	5	false						
+ljt_038a	pv_038	come on	acceptable	acceptable	Oh, come on, that sounds impossible.	come on	express disbelief or disagreement	none	6	false						
+ljt_038b	pv_038	come on	unacceptable	unacceptable	Oh, come on, that sounds accurate.	come on	express disbelief or disagreement	discourse_semantic_mismatch	6	false						
+ljt_039a	pv_039	come in	acceptable	acceptable	Experts came in during planning.	came in	become involved	none	5	false						
+ljt_039b	pv_039	come in	unacceptable	unacceptable	Experts came in during deadline.	came in	become involved	context_selection_mismatch	5	false						
+ljt_040a	pv_040	come out	acceptable	acceptable	The truth came out during interviews.	came out	become known or revealed	none	6	false						
+ljt_040b	pv_040	come out	unacceptable	unacceptable	The furniture came out during interviews.	came out	become known or revealed	context_selection_mismatch	6	false						
+ljt_041a	pv_041	bring about	acceptable	acceptable	The reforms brought about major change.	brought about	cause something to happen	none	6	false						
+ljt_041b	pv_041	bring about	unacceptable	unacceptable	The reforms brought about major furniture.	brought about	cause something to happen	object_selection_mismatch	6	false						
+ljt_042a	pv_042	carry out	acceptable	acceptable	The researchers carried out the survey.	carried out	conduct or perform a task	none	6	false						
+ljt_042b	pv_042	carry out	unacceptable	unacceptable	The researchers carried out the deadline.	carried out	conduct or perform a task	object_selection_mismatch	6	false						
+ljt_043a	pv_043	rule out	acceptable	acceptable	The evidence ruled out that explanation.	ruled out	exclude a possibility	none	6	false						
+ljt_043b	pv_043	rule out	unacceptable	unacceptable	The evidence ruled out that deadline.	ruled out	exclude a possibility	object_selection_mismatch	6	false						
+ljt_044a	pv_044	point out	acceptable	acceptable	The teacher pointed out the error.	pointed out	draw attention to information	none	6	false						
+ljt_044b	pv_044	point out	unacceptable	unacceptable	The pencil pointed out the error.	pointed out	draw attention to information	subject_selection_mismatch	6	false						
+ljt_045a	pv_045	sum up	acceptable	acceptable	The paragraph summed up the argument.	summed up	summarize the main points	none	6	false						
+ljt_045b	pv_045	sum up	unacceptable	unacceptable	The paragraph summed up the deadline.	summed up	summarize the main points	object_selection_mismatch	6	false						
+ljt_046a	pv_046	follow up	acceptable	acceptable	The nurse followed up after surgery.	followed up	take further action after something	none	6	false						
+ljt_046b	pv_046	follow up	unacceptable	unacceptable	The nurse followed up after furniture.	followed up	take further action after something	context_selection_mismatch	6	false						
+ljt_047a	pv_047	lay out	acceptable	acceptable	The chart laid out the plan.	laid out	present or arrange clearly	none	6	false						
+ljt_047b	pv_047	lay out	unacceptable	unacceptable	The chart laid out the spoon.	laid out	present or arrange clearly	object_selection_mismatch	6	false						
+ljt_048a	pv_048	work out	acceptable	acceptable	The students worked out the answer.	worked out	find or calculate a solution	none	6	false						
+ljt_048b	pv_048	work out	unacceptable	unacceptable	The students worked out the carpet.	worked out	find or calculate a solution	object_selection_mismatch	6	false						
