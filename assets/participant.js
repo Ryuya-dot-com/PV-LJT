@@ -381,8 +381,16 @@ function renderTrial() {
         </div>
         <div class="audio-card">
           <strong>${escapeHtml(task.prompt)}</strong>
-          <audio id="audioPlayer" controls preload="auto" playsinline autoplay src="${escapeHtml(audioPath(trial))}"></audio>
-          <div id="status" class="status">Audio will start automatically. Answer after it finishes.</div>
+          <audio id="audioPlayer" class="audio-hidden" preload="auto" playsinline autoplay src="${escapeHtml(audioPath(trial))}"></audio>
+          <div id="audioCard" class="audio-presenter" data-audio-state="loading" aria-live="polite">
+            <div class="audio-symbol" aria-hidden="true"></div>
+            <div class="audio-copy">
+              <span class="audio-kicker">Audio</span>
+              <div id="status" class="status">Starting audio. Answer after it finishes.</div>
+              <div class="audio-indicator" aria-hidden="true"><span></span></div>
+            </div>
+            <button id="replayButton" class="btn secondary audio-action" type="button" disabled>Replay</button>
+          </div>
         </div>
         <div id="responses" class="response-grid">
           ${task.responses.map((option) => (
@@ -402,33 +410,65 @@ function renderTrial() {
     if (!state.active.audioStartedAt) {
       state.active.audioStartedAt = new Date().toISOString();
     }
-    setTrialStatus("Audio is playing. Answer after it finishes.");
+    setAudioUi("playing", "Audio is playing. Answer after it finishes.");
   });
   audio.addEventListener("ended", () => enableResponses());
   audio.addEventListener("error", () => {
-    setTrialStatus("Audio could not be played. Try reloading the page.");
+    setAudioUi("blocked", "Audio could not be played. Try reloading the page.");
   });
   document.querySelectorAll("[data-response]").forEach((button) => {
     button.addEventListener("click", () => commitResponse(button.dataset.response));
   });
   document.getElementById("nextButton").addEventListener("click", nextTrial);
+  document.getElementById("replayButton").addEventListener("click", replayAudio);
   startAudio(audio);
 }
 
 function startAudio(audio) {
+  setAudioUi("loading", "Starting audio. Answer after it finishes.");
   const playPromise = audio.play();
   if (playPromise && typeof playPromise.catch === "function") {
     playPromise.catch(() => {
-      setTrialStatus("Press play to begin. The answer buttons unlock after the audio finishes.");
+      setAudioUi("blocked", "Press play to begin. The answer buttons unlock after the audio finishes.");
     });
   }
 }
 
-function setTrialStatus(message) {
+function setAudioUi(stateName, message) {
+  const card = document.getElementById("audioCard");
   const status = document.getElementById("status");
+  const replay = document.getElementById("replayButton");
+  if (card) {
+    card.dataset.audioState = stateName;
+  }
   if (status) {
     status.textContent = message;
   }
+  if (replay && !state.active?.response) {
+    replay.disabled = !(stateName === "ready" || stateName === "blocked");
+    replay.textContent = stateName === "blocked" ? "Play audio" : "Replay";
+  }
+}
+
+function disableResponses() {
+  document.querySelectorAll("[data-response]").forEach((button) => {
+    button.disabled = true;
+  });
+}
+
+function replayAudio() {
+  if (!state.active || state.active.response) {
+    return;
+  }
+  const audio = document.getElementById("audioPlayer");
+  if (!audio) {
+    return;
+  }
+  state.active.audioEndedAt = "";
+  state.active.audioEndedPerf = null;
+  disableResponses();
+  audio.currentTime = 0;
+  startAudio(audio);
 }
 
 function enableResponses() {
@@ -441,7 +481,7 @@ function enableResponses() {
   }
   state.active.audioEndedAt = new Date().toISOString();
   state.active.audioEndedPerf = performance.now();
-  status.textContent = "Choose your answer.";
+  setAudioUi("ready", "Choose your answer.");
   document.querySelectorAll("[data-response]").forEach((button) => {
     button.disabled = false;
   });
@@ -466,6 +506,10 @@ function commitResponse(responseValue) {
       button.classList.add("selected");
     }
   });
+  const replay = document.getElementById("replayButton");
+  if (replay) {
+    replay.disabled = true;
+  }
 
   state.responses.push({
     participant_id: state.participantId,

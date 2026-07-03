@@ -295,16 +295,127 @@ select {
 
 .audio-card {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
-audio {
+.audio-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.audio-presenter {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 14px;
+}
+
+.audio-symbol {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #dcebf8;
+  border: 1px solid #c5d9ec;
+  position: relative;
+}
+
+.audio-symbol::before,
+.audio-symbol::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.audio-symbol::before {
+  left: 15px;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.audio-symbol::after {
+  left: 25px;
+  width: 10px;
+  height: 18px;
+  border: 2px solid var(--accent);
+  border-left: 0;
+  border-radius: 0 16px 16px 0;
+}
+
+.audio-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.audio-kicker {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.audio-indicator {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e1e7ee;
+}
+
+.audio-indicator span {
+  display: block;
+  height: 100%;
+  width: 36%;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: translateX(-100%);
+}
+
+.audio-presenter[data-audio-state="loading"] .audio-indicator span,
+.audio-presenter[data-audio-state="playing"] .audio-indicator span {
+  animation: audioScan 1.05s ease-in-out infinite;
+}
+
+.audio-presenter[data-audio-state="ready"] .audio-indicator span {
   width: 100%;
+  background: var(--ok);
+  transform: translateX(0);
+}
+
+.audio-presenter[data-audio-state="blocked"] .audio-indicator span {
+  width: 100%;
+  background: var(--warn);
+  transform: translateX(0);
+}
+
+.audio-action {
+  min-width: 104px;
+  text-align: center;
 }
 
 .status {
   color: var(--muted);
   font-weight: 700;
+}
+
+@keyframes audioScan {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(280%);
+  }
 }
 
 .response-grid {
@@ -382,5 +493,14 @@ audio {
 
   .actions .btn {
     flex: 1 1 160px;
+  }
+
+  .audio-presenter {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .audio-action {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 }
