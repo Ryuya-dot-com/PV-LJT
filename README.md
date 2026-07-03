@@ -10,7 +10,8 @@ A simplified participant-facing page is also available at `participant.html`.
 It removes listening-review ratings, comments, transcript display, and email
 collection. Participants enter only an ID, voice, and task, then download CSV
 or JSON results at completion. Practice trials are shown before the main task,
-and each trial attempts to start audio automatically.
+and each trial attempts to start audio automatically. The participant page uses
+a custom audio status panel instead of browser-native audio controls.
 
 ## Review Tasks
 
