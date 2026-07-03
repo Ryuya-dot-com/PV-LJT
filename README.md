@@ -6,6 +6,11 @@ The GitHub Pages site lets reviewers complete the listening tasks with either
 the male or female ElevenLabs voice and export their responses as an Excel
 workbook after every trial is complete.
 
+A simplified participant-facing page is also available at `participant.html`.
+It removes listening-review ratings, comments, transcript display, and email
+collection. Participants enter only an ID, voice, and task, then download CSV
+or JSON results at completion.
+
 ## Review Tasks
 
 - Aural PV-LJT v5 Review List A
