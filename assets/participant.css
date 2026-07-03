@@ -244,6 +244,12 @@ select {
   color: #8a1232;
 }
 
+.notice.muted {
+  border-left-color: var(--line);
+  background: #f7f9fb;
+  color: var(--muted);
+}
+
 .hidden {
   display: none !important;
 }
@@ -335,6 +341,10 @@ audio {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin: 16px 0;
+}
+
+.result-grid.compact {
+  max-width: 420px;
 }
 
 .result-card {

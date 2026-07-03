@@ -304,15 +304,30 @@ async function startSession() {
 
 function renderInstructions() {
   const task = TASKS[state.taskKey];
+  const nPractice = state.randomization?.nPractice ?? 0;
+  const nMain = state.randomization?.nMain ?? 0;
   app.innerHTML = `${topbar(task.label)}
     <section class="panel">
       <h2 class="section-title">Instructions</h2>
-      <p class="lead">Listen to each item and choose your answer. Practice trials come first.</p>
+      <p class="lead">Listen to each item and choose your answer.</p>
+      <div class="result-grid compact">
+        <div class="result-card">
+          <span>Practice</span>
+          <strong>${nPractice}</strong>
+        </div>
+        <div class="result-card">
+          <span>Main</span>
+          <strong>${nMain}</strong>
+        </div>
+      </div>
       <div class="notice">
-        Responses become available after the audio finishes.
+        Practice trials come first and show feedback. The main task begins after practice.
+      </div>
+      <div class="notice muted">
+        Audio starts automatically when each trial opens. If it does not start, press play.
       </div>
       <div class="actions">
-        <button id="continueButton" class="btn" type="button">Continue</button>
+        <button id="continueButton" class="btn" type="button">Start practice</button>
         <button id="backButton" class="btn ghost" type="button">Back</button>
       </div>
     </section>`;
@@ -366,8 +381,8 @@ function renderTrial() {
         </div>
         <div class="audio-card">
           <strong>${escapeHtml(task.prompt)}</strong>
-          <audio id="audioPlayer" controls preload="metadata" src="${escapeHtml(audioPath(trial))}"></audio>
-          <div id="status" class="status">Play the audio to answer.</div>
+          <audio id="audioPlayer" controls preload="auto" playsinline autoplay src="${escapeHtml(audioPath(trial))}"></audio>
+          <div id="status" class="status">Audio will start automatically. Answer after it finishes.</div>
         </div>
         <div id="responses" class="response-grid">
           ${task.responses.map((option) => (
@@ -387,24 +402,46 @@ function renderTrial() {
     if (!state.active.audioStartedAt) {
       state.active.audioStartedAt = new Date().toISOString();
     }
+    setTrialStatus("Audio is playing. Answer after it finishes.");
   });
   audio.addEventListener("ended", () => enableResponses());
   audio.addEventListener("error", () => {
-    document.getElementById("status").textContent = "Audio could not be played. Try reloading the page.";
+    setTrialStatus("Audio could not be played. Try reloading the page.");
   });
   document.querySelectorAll("[data-response]").forEach((button) => {
     button.addEventListener("click", () => commitResponse(button.dataset.response));
   });
   document.getElementById("nextButton").addEventListener("click", nextTrial);
+  startAudio(audio);
+}
+
+function startAudio(audio) {
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      setTrialStatus("Press play to begin. The answer buttons unlock after the audio finishes.");
+    });
+  }
+}
+
+function setTrialStatus(message) {
+  const status = document.getElementById("status");
+  if (status) {
+    status.textContent = message;
+  }
 }
 
 function enableResponses() {
   if (!state.active || state.active.response) {
     return;
   }
+  const status = document.getElementById("status");
+  if (!status) {
+    return;
+  }
   state.active.audioEndedAt = new Date().toISOString();
   state.active.audioEndedPerf = performance.now();
-  document.getElementById("status").textContent = "Choose your answer.";
+  status.textContent = "Choose your answer.";
   document.querySelectorAll("[data-response]").forEach((button) => {
     button.disabled = false;
   });
@@ -465,13 +502,34 @@ function commitResponse(responseValue) {
 }
 
 function nextTrial() {
+  const previous = currentTrial();
   state.currentIndex += 1;
   if (state.currentIndex >= state.trialPlan.length) {
     state.completedAt = new Date().toISOString();
     renderResults();
     return;
   }
+  const next = currentTrial();
+  if (previous?.phase === "practice" && next?.phase === "main") {
+    renderPracticeComplete();
+    return;
+  }
   renderTrial();
+}
+
+function practiceRows() {
+  return state.responses.filter((row) => row.phase === "practice");
+}
+
+function practiceSummary() {
+  const rows = practiceRows();
+  const correct = rows.filter((row) => row.response_correct === "true").length;
+  const total = rows.length;
+  return {
+    correct,
+    total,
+    accuracy: total ? correct / total : 0,
+  };
 }
 
 function mainRows() {
@@ -487,6 +545,33 @@ function scoreSummary() {
     total,
     accuracy: total ? correct / total : 0,
   };
+}
+
+function renderPracticeComplete() {
+  const summary = practiceSummary();
+  const percent = `${Math.round(summary.accuracy * 100)}%`;
+  app.innerHTML = `${topbar(currentTask().label)}
+    <section class="panel">
+      <h2 class="section-title">Practice complete</h2>
+      <p class="lead">The main task starts next. Feedback will no longer be shown.</p>
+      <div class="result-grid compact">
+        <div class="result-card">
+          <span>Practice score</span>
+          <strong>${summary.correct} / ${summary.total}</strong>
+        </div>
+        <div class="result-card">
+          <span>Accuracy</span>
+          <strong>${percent}</strong>
+        </div>
+      </div>
+      <div class="notice muted">
+        Audio will continue to start automatically. Answer after each audio item finishes.
+      </div>
+      <div class="actions">
+        <button id="startMainButton" class="btn" type="button">Start main task</button>
+      </div>
+    </section>`;
+  document.getElementById("startMainButton").addEventListener("click", renderTrial);
 }
 
 function renderResults() {
