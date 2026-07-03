@@ -26,6 +26,12 @@ from the target phrasal-verb meaning. See:
 
 - `materials/ljt_v5_semantic_naturalness_expert_review_v1.tsv`
 - `materials/ljt_v5_semantic_naturalness_expert_review_summary_v1.md`
+- `materials/ljt_v6_item_feasibility_audit_v1.tsv`
+- `materials/ljt_v6_critical_design_audit_v1.md`
+
+The v6 audit is a pre-audio gate. It classifies the original 48 PV targets by
+construct fit, near-miss feasibility, polysemy risk, and audio stability before
+new LJT items are written or recorded.
 
 Practice trials are presented first in fixed order. Main trials are
 pseudo-randomized from reviewer ID, voice, and task, so the same reviewer gets

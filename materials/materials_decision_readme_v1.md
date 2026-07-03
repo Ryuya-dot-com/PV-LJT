@@ -66,6 +66,16 @@ The first pilot excludes three-word phrasal-prepositional frames such as `put up
   - short summary of the v5 expert-style review
   - recommends building a v6 set from expert-reviewed near-miss contexts
 
+- `ljt_v6_item_feasibility_audit_v1.tsv`
+  - pre-audio v6 feasibility audit for all 48 PV targets
+  - rates construct fit, near-miss feasibility, polysemy risk, and audio risk
+  - classifies each PV as keep/revise, revise, replace/rewrite, or drop
+
+- `ljt_v6_critical_design_audit_v1.md`
+  - multi-perspective v6 design audit
+  - conclusion: do not assume all 48 PVs are suitable for an audio LJT
+  - defines the gate that must pass before any v6 audio is generated
+
 - `aural_pv_ljt_list_assignment_v5_production.tsv`
   - assigns one LJT sentence per PV to List A and the opposite condition to List B
   - each list has 48 PVs, 24 acceptable and 24 unacceptable sentences
