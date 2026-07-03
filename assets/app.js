@@ -1,6 +1,6 @@
 const TASKS = {
   ljt_a: {
-    label: "Aural PV-LJT Production List A",
+    label: "Aural PV-LJT v5 Review List A",
     path: "materials/pilot_trial_file_ljt_list_A_v5_production.tsv",
     kind: "ljt",
     audioFolder: "ljt_v5",
@@ -15,7 +15,7 @@ const TASKS = {
     ],
   },
   ljt_b: {
-    label: "Aural PV-LJT Production List B",
+    label: "Aural PV-LJT v5 Review List B",
     path: "materials/pilot_trial_file_ljt_list_B_v5_production.tsv",
     kind: "ljt",
     audioFolder: "ljt_v5",

@@ -8,20 +8,24 @@ workbook after every trial is complete.
 
 ## Review Tasks
 
-- Aural PV-LJT Production List A
-- Aural PV-LJT Production List B
+- Aural PV-LJT v5 Review List A
+- Aural PV-LJT v5 Review List B
 - Audio phrasal verb decision
 
-The LJT pages use the v5 production stimuli:
+The LJT pages currently use the v5 review stimuli:
 
 - `materials/aural_pv_ljt_items_v5_production.tsv`
 - `materials/pilot_trial_file_ljt_list_A_v5_production.tsv`
 - `materials/pilot_trial_file_ljt_list_B_v5_production.tsv`
 
-The v5 LJT set replaces the earlier v4 pre-audio candidate items. It removes
-overt contrast cues such as `but`, `although`, `never`, `no`, and `nothing`,
-matches word counts within each acceptable/unacceptable PV pair, and avoids the
-explicit contradiction templates used in v4.
+The v5 LJT set replaces the earlier v4 pre-audio candidate items and passes the
+mechanical cue/word-count audit. A later semantic-naturalness review found that
+v5 should not be treated as production-ready for learner data because many
+unacceptable items are rejectable from broad noun/category oddness rather than
+from the target phrasal-verb meaning. See:
+
+- `materials/ljt_v5_semantic_naturalness_expert_review_v1.tsv`
+- `materials/ljt_v5_semantic_naturalness_expert_review_summary_v1.md`
 
 Practice trials are presented first in fixed order. Main trials are
 pseudo-randomized from reviewer ID, voice, and task, so the same reviewer gets
