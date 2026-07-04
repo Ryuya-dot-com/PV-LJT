@@ -1,4 +1,32 @@
 const TASKS = {
+  cljt_v4_a: {
+    label: "C-Level PV-LJT v4 List A",
+    path: "materials/pilot_trial_file_ljt_list_A_v4_multi_agent.tsv",
+    kind: "ljt",
+    audioFolder: "ljt_v4_multi_agent",
+    practiceAudioFolder: "ljt_practice_v5",
+    responseField: "expected_response",
+    balanceField: "expected_response",
+    prompt: "Is the sentence acceptable?",
+    responses: [
+      { value: "acceptable", label: "Acceptable", className: "yes" },
+      { value: "unacceptable", label: "Unacceptable", className: "no" },
+    ],
+  },
+  cljt_v4_b: {
+    label: "C-Level PV-LJT v4 List B",
+    path: "materials/pilot_trial_file_ljt_list_B_v4_multi_agent.tsv",
+    kind: "ljt",
+    audioFolder: "ljt_v4_multi_agent",
+    practiceAudioFolder: "ljt_practice_v5",
+    responseField: "expected_response",
+    balanceField: "expected_response",
+    prompt: "Is the sentence acceptable?",
+    responses: [
+      { value: "acceptable", label: "Acceptable", className: "yes" },
+      { value: "unacceptable", label: "Unacceptable", className: "no" },
+    ],
+  },
   ljt_a: {
     label: "PV-LJT List A",
     path: "materials/pilot_trial_file_ljt_list_A_v5_production.tsv",
@@ -57,7 +85,7 @@ const state = {
   stage: "setup",
   participantId: "",
   voice: "male",
-  taskKey: "ljt_a",
+  taskKey: "cljt_v4_a",
   rawTrials: [],
   trialPlan: [],
   currentIndex: 0,

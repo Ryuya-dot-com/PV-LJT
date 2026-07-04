@@ -1,4 +1,34 @@
 const TASKS = {
+  cljt_v4_a: {
+    label: "C-Level PV-LJT v4 Review List A",
+    path: "materials/pilot_trial_file_ljt_list_A_v4_multi_agent.tsv",
+    kind: "ljt",
+    audioFolder: "ljt_v4_multi_agent",
+    practiceAudioFolder: "ljt_practice_v5",
+    promptTitle: "Acceptable or unacceptable?",
+    promptCopy: "Judge the sentence meaning from the audio.",
+    responseField: "expected_response",
+    balanceField: "expected_response",
+    responses: [
+      { value: "acceptable", label: "Acceptable" },
+      { value: "unacceptable", label: "Unacceptable" },
+    ],
+  },
+  cljt_v4_b: {
+    label: "C-Level PV-LJT v4 Review List B",
+    path: "materials/pilot_trial_file_ljt_list_B_v4_multi_agent.tsv",
+    kind: "ljt",
+    audioFolder: "ljt_v4_multi_agent",
+    practiceAudioFolder: "ljt_practice_v5",
+    promptTitle: "Acceptable or unacceptable?",
+    promptCopy: "Judge the sentence meaning from the audio.",
+    responseField: "expected_response",
+    balanceField: "expected_response",
+    responses: [
+      { value: "acceptable", label: "Acceptable" },
+      { value: "unacceptable", label: "Unacceptable" },
+    ],
+  },
   ljt_a: {
     label: "Aural PV-LJT v5 Review List A",
     path: "materials/pilot_trial_file_ljt_list_A_v5_production.tsv",
@@ -48,7 +78,7 @@ const STORAGE_VERSION = "v3";
 const MAX_RUN_LENGTH = 3;
 
 const state = {
-  taskKey: "ljt_a",
+  taskKey: "cljt_v4_a",
   voice: "male",
   reviewerId: "",
   rawTrials: [],

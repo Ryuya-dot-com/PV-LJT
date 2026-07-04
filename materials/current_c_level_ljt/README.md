@@ -10,6 +10,8 @@ This directory is an index for the current C-level phrasal-verb LJT working set.
 - `../c_level_pv_ljt_list_A_v4_multi_agent.tsv`
 - `../c_level_pv_ljt_list_B_v4_multi_agent.tsv`
 - `../c_level_pv_ljt_list_assignment_v4_multi_agent.tsv`
+- `../pilot_trial_file_ljt_list_A_v4_multi_agent.tsv`
+- `../pilot_trial_file_ljt_list_B_v4_multi_agent.tsv`
 - `../c_level_pv_ljt_48_target_balance_audit_v4_multi_agent_ja.md`
 - `../c_level_pv_ljt_multi_agent_candidate_synthesis_v3_ja.md`
 
@@ -42,6 +44,6 @@ The v4 multi-agent set is the current pre-audio expert-review candidate:
 - 48 targets / 96 LJT sentences
 - List A and List B each contain 48 trials
 - Each list has 24 acceptable and 24 unacceptable trials
+- App-ready List A and List B files each contain 6 fixed practice trials plus 48 main trials
 - Male and female ElevenLabs audio have been generated for all 96 sentences
 - All generated mp3 files passed existence, zero-byte, and duration checks
-

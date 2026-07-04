@@ -17,11 +17,21 @@ trials use LJT-S-style seeded constrained randomization.
 
 ## Review Tasks
 
+- C-Level PV-LJT v4 Review List A
+- C-Level PV-LJT v4 Review List B
 - Aural PV-LJT v5 Review List A
 - Aural PV-LJT v5 Review List B
 - Audio phrasal verb decision
 
-The LJT pages currently use the v5 review stimuli:
+The default LJT pages currently use the C-level v4 multi-agent stimuli:
+
+- `materials/c_level_pv_ljt_48_target_master_v4_multi_agent.tsv`
+- `materials/c_level_pv_ljt_list_A_v4_multi_agent.tsv`
+- `materials/c_level_pv_ljt_list_B_v4_multi_agent.tsv`
+- `materials/pilot_trial_file_ljt_list_A_v4_multi_agent.tsv`
+- `materials/pilot_trial_file_ljt_list_B_v4_multi_agent.tsv`
+
+The older v5 review stimuli remain selectable for comparison:
 
 - `materials/aural_pv_ljt_items_v5_production.tsv`
 - `materials/pilot_trial_file_ljt_list_A_v5_production.tsv`
@@ -59,9 +69,9 @@ and 17 excluded or replacement-needed targets.
 
 ## Current C-Level PV-LJT Working Set
 
-A newer C-level, C1-centered PV-LJT candidate set has been created separately
-from the v5 review app materials. It is not currently wired into the static
-review pages.
+A newer C-level, C1-centered PV-LJT candidate set has been created and is now
+the default LJT task in both the listening-review page and the simplified
+participant page.
 
 Current item and list files:
 
@@ -69,6 +79,8 @@ Current item and list files:
 - `materials/c_level_pv_ljt_list_A_v4_multi_agent.tsv`
 - `materials/c_level_pv_ljt_list_B_v4_multi_agent.tsv`
 - `materials/c_level_pv_ljt_list_assignment_v4_multi_agent.tsv`
+- `materials/pilot_trial_file_ljt_list_A_v4_multi_agent.tsv`
+- `materials/pilot_trial_file_ljt_list_B_v4_multi_agent.tsv`
 
 Current design and audit files:
 
