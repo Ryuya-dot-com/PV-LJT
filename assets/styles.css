@@ -361,8 +361,29 @@ button.danger {
   margin-bottom: 14px;
 }
 
+.text-reveal-head,
+.script-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+}
+
+.script-meta span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.script-meta b {
+  color: var(--text);
+}
+
 .text-reveal p {
-  margin: 4px 0 0;
+  margin: 6px 0;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .quality-panel {

@@ -108,6 +108,8 @@ const els = {
   responseButtons: document.getElementById("responseButtons"),
   textReveal: document.getElementById("textReveal"),
   stimulusText: document.getElementById("stimulusText"),
+  targetForm: document.getElementById("targetForm"),
+  targetPv: document.getElementById("targetPv"),
   easeSlider: document.getElementById("easeSlider"),
   easeValue: document.getElementById("easeValue"),
   naturalnessSlider: document.getElementById("naturalnessSlider"),
@@ -567,7 +569,9 @@ function render() {
   els.trialCounter.textContent = `Trial ${state.currentIndex + 1} of ${state.trialPlan.length}`;
   els.audioPlayer.src = audioPath(trial);
   els.stimulusText.textContent = trial.stimulus_text || "";
-  els.textReveal.hidden = !saved.response;
+  els.targetForm.textContent = trial.target_form || "-";
+  els.targetPv.textContent = trial.pv || trial.matched_target_pv || "-";
+  els.textReveal.hidden = false;
 
   els.progressText.textContent = `${done} / ${state.trialPlan.length}`;
   els.progressBar.style.width = `${state.trialPlan.length ? (done / state.trialPlan.length) * 100 : 0}%`;
