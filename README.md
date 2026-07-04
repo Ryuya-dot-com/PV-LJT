@@ -57,6 +57,41 @@ The v6 candidate set is not currently served in the review app and should not
 be recorded yet. It contains a 31-PV review pool, a 30-PV balanced active list,
 and 17 excluded or replacement-needed targets.
 
+## Current C-Level PV-LJT Working Set
+
+A newer C-level, C1-centered PV-LJT candidate set has been created separately
+from the v5 review app materials. It is not currently wired into the static
+review pages.
+
+Current item and list files:
+
+- `materials/c_level_pv_ljt_48_target_master_v4_multi_agent.tsv`
+- `materials/c_level_pv_ljt_list_A_v4_multi_agent.tsv`
+- `materials/c_level_pv_ljt_list_B_v4_multi_agent.tsv`
+- `materials/c_level_pv_ljt_list_assignment_v4_multi_agent.tsv`
+
+Current design and audit files:
+
+- `materials/c_level_pv_ljt_design_spec_v1_ja.md`
+- `materials/c_level_pv_ljt_item_review_rubric_v1.tsv`
+- `materials/c_level_pv_ljt_48_target_balance_audit_v4_multi_agent_ja.md`
+- `materials/c_level_pv_ljt_multi_agent_candidate_synthesis_v3_ja.md`
+- `materials/current_c_level_ljt/README.md`
+
+Generated ElevenLabs audio for this set is available under:
+
+- `audio/raw/elevenlabs/male/ljt_v4_multi_agent/`
+- `audio/raw/elevenlabs/female/ljt_v4_multi_agent/`
+
+Generation manifests:
+
+- `materials/elevenlabs_generation_manifest_male_ljt_v4_multi_agent.tsv`
+- `materials/elevenlabs_generation_manifest_female_ljt_v4_multi_agent.tsv`
+- `materials/elevenlabs_generation_summary_ljt_v4_multi_agent.md`
+
+Earlier C-level development rounds and replacement drafts have been archived
+under `materials/archive/c_level_ljt_development/`.
+
 Practice trials are presented first in fixed order. Main trials are
 pseudo-randomized from reviewer ID, voice, and task, so the same reviewer gets
 the same order when resuming.
